@@ -48,12 +48,12 @@
             <a-icon type="edit"/>
             编辑
           </a>
-          <a-divider type="vertical"/>
+<!--          <a-divider type="vertical"/>
           <a @click="editDictItem(record)"><a-icon type="setting"/> 字典配置</a>
           <a-divider type="vertical"/>
           <a-popconfirm title="确定删除吗?" @confirm="() =>handleDelete(record.id)">
             <a>删除</a>
-          </a-popconfirm>
+          </a-popconfirm>-->
         </span>
       </a-table>
 
@@ -97,14 +97,23 @@
             }
           },
           {
-            title: '字典名称',
+            title: '学期名称',
             align: "left",
             dataIndex: 'dictName',
           },
           {
-            title: '字典编号',
+            title: '编辑状态',
             align: "left",
             dataIndex: 'dictCode',
+            customRender: function (text) {
+              if (text == 1) {
+                return "不可编辑";
+              } else if (text == 0) {
+                return "可编辑";
+              } else {
+                return text;
+              }
+            }
           },
           {
             title: '描述',

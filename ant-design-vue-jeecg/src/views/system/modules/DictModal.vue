@@ -14,15 +14,19 @@
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="字典名称">
-          <a-input placeholder="请输入字典名称" v-decorator="[ 'dictName', validatorRules.dictName]"/>
+          label="学期名称">
+          <a-input placeholder="请输入学期名称" v-decorator="[ 'dictName', validatorRules.dictName]"/>
         </a-form-item>
 
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="字典编码">
-          <a-input placeholder="请输入字典编码" v-decorator="[ 'dictCode', validatorRules.dictCode]"/>
+          label="编辑状态">
+          <a-select placeholder="请选择编辑状态" v-decorator="[ 'dictCode', {}]">
+            <a-select-option v-for="(log,logindex) in dictCodeList" :key="log.code" :value="log.code">
+              {{ log.name }}
+            </a-select-option>
+          </a-select>
         </a-form-item>
 
         <a-form-item
@@ -45,6 +49,7 @@
     name: 'DictModal',
     data() {
       return {
+        dictCodeList: [{code:'0',name:'可编辑'},{code:'1',name:'不可编辑'}],
         value: 1,
         title: '操作',
         visible: false,
@@ -60,9 +65,9 @@
         confirmLoading: false,
         form: this.$form.createForm(this),
         validatorRules: {
-          dictName: { rules: [{ required: true, message: '请输入字典名称!' }] },
+          dictName: { rules: [{ required: true, message: '请输入学期名称!' }] },
           dictCode: {
-            rules: [{ required: true, message: '请输入字典编码!' },
+            rules: [{ required: true, message: '请输入编辑状态!' },
               { validator: this.validateDictCode }]
           }
         }
