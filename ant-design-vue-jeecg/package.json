@@ -53,13 +53,15 @@
     "@vue/cli-service": "^3.3.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "7.2.3",
+    "compression-webpack-plugin": "^3.1.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.1.0",
+    "html-webpack-plugin": "^4.2.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
-    "vue-template-compiler": "^2.6.10",
-    "html-webpack-plugin": "^4.2.0",
-    "compression-webpack-plugin": "^3.1.0"
+    "node-sass": "^4.14.1",
+    "sass-loader": "^10.1.0",
+    "vue-template-compiler": "^2.6.10"
   },
   "eslintConfig": {
     "root": true,
@@ -97,7 +99,10 @@
       "vue/html-closing-bracket-newline": 0,
       "vue/no-parsing-error": 0,
       "no-tabs": 0,
-      "indent": ["off", 2],
+      "indent": [
+        "off",
+        2
+      ],
       "no-console": 0,
       "space-before-function-paren": 0
     }

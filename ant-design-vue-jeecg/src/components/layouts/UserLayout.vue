@@ -4,12 +4,12 @@
       <div class="top">
         <div class="header">
           <a href="/">
-            <img src="~@/assets/logo.svg" class="logo" alt="logo">
-            <span class="title">Jeecg Boot</span>
+            <img src="~@/assets/logoN.png" class="logo" alt="logo">
+            <span class="title">体测系统</span>
           </a>
         </div>
         <div class="desc">
-          Jeecg Boot 是中国最具影响力的 企业级 低代码平台
+          XXXX这里可以添加一段描述文字。
         </div>
       </div>
 
@@ -17,12 +17,12 @@
 
       <div class="footer">
         <div class="links">
-          <a href="http://doc.jeecg.com" target="_blank">帮助</a>
+          <a href="http://jeecg-boot.mydoc.io" target="_blank">帮助</a>
           <a href="https://github.com/zhangdaiscott/jeecg-boot" target="_blank">隐私</a>
-          <a href="https://github.com/zhangdaiscott/jeecg-boot/blob/master/LICENSE" target="_blank">条款</a>
+          <a href="https://github.com/zhangdaiscott/jeecg-boot" target="_blank">条款</a>
         </div>
         <div class="copyright">
-          Copyright &copy; 2019 <a href="http://www.jeecg.com" target="_blank">JEECG开源社区</a> 出品
+          Copyright &copy; 2019 <a href="http://www.jeecg.org" target="_blank">JEECG开源社区</a> 出品
         </div>
       </div>
     </div>
@@ -49,7 +49,7 @@
   }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
   #userLayout.user-layout-wrapper {
     height: 100%;
 
@@ -65,7 +65,7 @@
     .container {
       width: 100%;
       min-height: 100%;
-      background: #f0f2f5 url(~@/assets/background.svg) no-repeat 50%;
+      background: #f0f2f5 url(~@/assets/bg.png) no-repeat 50%;
       background-size: 100%;
       padding: 110px 0 144px;
       position: relative;
