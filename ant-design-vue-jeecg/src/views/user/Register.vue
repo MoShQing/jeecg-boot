@@ -36,7 +36,7 @@
         :fieldDecoratorOptions="{rules: [{ required: true, type: 'email', message: '请输入正确的邮箱地址' }, { validator: this.handleEmailCheck }], validateTrigger: ['change', 'blur']}">
         <a-input size="large" type="text" placeholder="邮箱"></a-input>
       </a-form-item>
-      <a-form-item
+<!--      <a-form-item
         fieldDecoratorId="mobile"
         :fieldDecoratorOptions="{rules: [{ required: true, pattern: /^1[3456789]\d{9}$/, message: '请输入正确的手机号' }, { validator: this.handlePhoneCheck } ], validateTrigger: ['change', 'blur'] }">
         <a-input size="large" placeholder="11 位手机号">
@@ -45,7 +45,7 @@
             <a-select-option value="+87">+87</a-select-option>
           </a-select>
         </a-input>
-      </a-form-item>
+      </a-form-item>-->
       <!--<a-input-group size="large" compact>
             <a-select style="width: 20%" size="large" defaultValue="+86">
               <a-select-option value="+86">+86</a-select-option>
@@ -54,7 +54,7 @@
             <a-input style="width: 80%" size="large" placeholder="11 位手机号"></a-input>
           </a-input-group>-->
 
-      <a-row :gutter="16">
+<!--      <a-row :gutter="16">
         <a-col class="gutter-row" :span="16">
           <a-form-item
             fieldDecoratorId="captcha"
@@ -72,7 +72,7 @@
             @click.stop.prevent="getCaptcha"
             v-text="!state.smsSendBtn && '获取验证码'||(state.time+' s')"></a-button>
         </a-col>
-      </a-row>
+      </a-row>-->
 
       <a-form-item>
         <a-button
@@ -174,9 +174,9 @@
 
         let level = 0
         let reg = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,./]).{8,}$/;
-        if (!reg.test(value)) {
+        /*if (!reg.test(value)) {
           callback(new Error('密码由8位数字、大小写字母和特殊符号组成!'))
-        }
+        }*/
         // 判断这个字符串中有没有数字
         if (/[0-9]/.test(value)) {
           level++
@@ -191,6 +191,7 @@
         }
         this.state.passwordLevel = level
         this.state.percent = level * 30
+        level = 2;//破坏强度不够校验
         if (level >= 2) {
           if (level >= 3) {
             this.state.percent = 100
