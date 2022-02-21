@@ -75,5 +75,15 @@ export default {
     arr.splice(arr.findIndex(val=>val.dictName==newObj.dictName), 1, newObj)
     console.log('请求url:' + url + "，结果：" + JSON.stringify(obj));
     return obj
+  },
+
+  'post|/jeecg-boot/sys/dict/add': option => {
+    let arr = obj.result.records;
+
+    let newObj = JSON.parse(option.body);
+    arr.unshift(newObj);
+    // arr.splice(arr.findIndex(val=>val.dictName==newObj.dictName), 1, newObj)
+    console.log('请求url:' + url + "，结果：" + JSON.stringify(obj));
+    return obj
   }
 }

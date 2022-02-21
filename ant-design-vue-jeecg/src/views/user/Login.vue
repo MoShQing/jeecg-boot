@@ -13,7 +13,7 @@
               type="text"
               placeholder="请输入帐户名 / admin">
               <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            jeccg</a-input>
+              jeccg</a-input>
           </a-form-item>
 
           <a-form-item>
@@ -24,7 +24,7 @@
               autocomplete="false"
               placeholder="密码 / 123456">
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            123456</a-input>
+              123456</a-input>
           </a-form-item>
 
           <!--<a-row :gutter="0">
@@ -308,8 +308,8 @@
 
               const hide = this.$message.loading('验证码发送中..', 0);
               let smsParams = {};
-                  smsParams.mobile=values.mobile;
-                  smsParams.smsmode="0";
+              smsParams.mobile=values.mobile;
+              smsParams.smsmode="0";
               postAction("/sys/sms",smsParams)
                 .then(res => {
                   if(!res.success){
@@ -419,7 +419,7 @@
           this.validate_status='error'
           return false
         }
-       let obj = {
+        let obj = {
           orgCode:this.departSelected,
           username:this.form.getFieldValue("username")
         }
@@ -450,24 +450,24 @@
         this.validate_status='success'
         this.departSelected = value
       },
-    getRouterData(){
-      this.$nextTick(() => {
-        this.form.setFieldsValue({
-        'username': this.$route.params.username
-      });
-    })
-    },
-    //获取密码加密规则
-    getEncrypte(){
-      var encryptedString = Vue.ls.get(ENCRYPTED_STRING);
-      if(encryptedString == null){
-        getEncryptedString().then((data) => {
-          this.encryptedString = data
-        });
-      }else{
-        this.encryptedString = encryptedString;
-      }
-    },
+      getRouterData(){
+        this.$nextTick(() => {
+          this.form.setFieldsValue({
+            'username': this.$route.params.username
+          });
+        })
+      },
+      //获取密码加密规则
+      getEncrypte(){
+        var encryptedString = Vue.ls.get(ENCRYPTED_STRING);
+        if(encryptedString == null){
+          getEncryptedString().then((data) => {
+            this.encryptedString = data
+          });
+        }else{
+          this.encryptedString = encryptedString;
+        }
+      },
     }
   }
 </script>

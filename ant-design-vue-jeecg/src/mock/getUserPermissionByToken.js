@@ -30,44 +30,30 @@ let demoList = [
           "path": "/isystem/depart",
           "component": "system/DepartList",
           "route": "1",
-          "meta": {"keepAlive": false, "internalOrExternal": false, "title": "部门管理"},
+          "meta": {"keepAlive": false, "internalOrExternal": false, "title": "单项指标评分表（男生）"},
           "name": "isystem-depart",
           "id": "45c966826eeff4c99b8f8ebfe74511fc"
         }, {
           "path": "/isystem/user",
           "component": "system/UserList",
           "route": "1",
-          "meta": {"keepAlive": false, "internalOrExternal": false, "title": "用户管理"},
+          "meta": {"keepAlive": false, "internalOrExternal": false, "title": "单项指标评分表（女生）"},
           "name": "isystem-user",
           "id": "3f915b2769fc80648e92d04e84ca059d"
         }, {
           "path": "/isystem/role",
           "component": "system/RoleList",
           "route": "1",
-          "meta": {"keepAlive": false, "internalOrExternal": false, "title": "角色管理"},
+          "meta": {"keepAlive": false, "internalOrExternal": false, "title": "体重指数（BMI）单项评分表"},
           "name": "isystem-role",
           "id": "e8af452d8948ea49d37c934f5100ae6a"
-        }, {
-          "path": "/isystem/permission",
-          "component": "system/PermissionList",
-          "route": "1",
-          "meta": {"keepAlive": false, "internalOrExternal": false, "title": "菜单管理"},
-          "name": "isystem-permission",
-          "id": "54dd5457a3190740005c1bfec55b1c34"
         }, {
           "path": "/isystem/dict",
           "component": "system/DictList",
           "route": "1",
-          "meta": {"keepAlive": false, "internalOrExternal": false, "title": "数据字典"},
+          "meta": {"keepAlive": false, "internalOrExternal": false, "title": "学期管理"},
           "name": "isystem-dict",
           "id": "f1cb187abf927c88b89470d08615f5ac"
-        }, {
-          "path": "/isystem/annountCement",
-          "component": "system/SysAnnouncementList",
-          "route": "1",
-          "meta": {"keepAlive": false, "internalOrExternal": false, "title": "系统通告"},
-          "name": "isystem-annountCement",
-          "id": "e08cb190ef230d5d4f03824198773950"
         }],
         "meta": {"keepAlive": false, "internalOrExternal": false, "icon": "setting", "title": "系统管理1"},
         "name": "isystem",
@@ -429,46 +415,32 @@ map.set("0",{
         "path": "/isystem/depart",
         "component": "system/DepartList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "部门管理"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "单项指标评分表（男生）"},
         "name": "isystem-depart",
         "id": "45c966826eeff4c99b8f8ebfe74511fc"
       }, {
         "path": "/isystem/user",
         "component": "system/UserList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "用户管理"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "单项指标评分表（女生）"},
         "name": "isystem-user",
         "id": "3f915b2769fc80648e92d04e84ca059d"
       }, {
         "path": "/isystem/role",
         "component": "system/RoleList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "角色管理"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "体重指数（BMI）单项评分表"},
         "name": "isystem-role",
         "id": "e8af452d8948ea49d37c934f5100ae6a"
-      }, {
-        "path": "/isystem/permission",
-        "component": "system/PermissionList",
-        "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "菜单管理"},
-        "name": "isystem-permission",
-        "id": "54dd5457a3190740005c1bfec55b1c34"
       }, {
         "path": "/isystem/dict",
         "component": "system/DictList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "数据字典"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "成绩查看"},
         "name": "isystem-dict",
         "id": "f1cb187abf927c88b89470d08615f5ac"
-      }, {
-        "path": "/isystem/annountCement",
-        "component": "system/SysAnnouncementList",
-        "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "系统通告"},
-        "name": "isystem-annountCement",
-        "id": "e08cb190ef230d5d4f03824198773950"
       }],
-      "meta": {"keepAlive": false, "internalOrExternal": false, "icon": "setting", "title": "用户w"},
+      "meta": {"keepAlive": false, "internalOrExternal": false, "icon": "setting", "title": "学生菜单"},
       "name": "isystem",
       "id": "d7d6e2e4e2934f2c9385a623fd98c6f3"
     }]
@@ -505,46 +477,40 @@ map.set("1",{
         "path": "/isystem/depart",
         "component": "system/DepartList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "部门管理"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "单项指标评分表（男生）"},
         "name": "isystem-depart",
         "id": "45c966826eeff4c99b8f8ebfe74511fc"
       }, {
         "path": "/isystem/user",
         "component": "system/UserList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "用户管理"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "单项指标评分表（女生）"},
         "name": "isystem-user",
         "id": "3f915b2769fc80648e92d04e84ca059d"
       }, {
         "path": "/isystem/role",
         "component": "system/RoleList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "角色管理"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "体重指数（BMI）单项评分表"},
         "name": "isystem-role",
         "id": "e8af452d8948ea49d37c934f5100ae6a"
-      }, {
-        "path": "/isystem/permission",
-        "component": "system/PermissionList",
-        "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "菜单管理"},
-        "name": "isystem-permission",
-        "id": "54dd5457a3190740005c1bfec55b1c34"
       }, {
         "path": "/isystem/dict",
         "component": "system/DictList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "数据字典"},
+        "hidden": true,
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "学期管理"},
         "name": "isystem-dict",
         "id": "f1cb187abf927c88b89470d08615f5ac"
       }, {
-        "path": "/isystem/annountCement",
-        "component": "system/SysAnnouncementList",
+        "path": "/isystem/report",
+        "component": "system/ReportList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "系统通告"},
-        "name": "isystem-annountCement",
-        "id": "e08cb190ef230d5d4f03824198773950"
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "成绩管理"},
+        "name": "isystem-report",
+        "id": "f1cb187abf927c88b89470d08615f5ac2"
       }],
-      "meta": {"keepAlive": false, "internalOrExternal": false, "icon": "setting", "title": "用户teacher"},
+      "meta": {"keepAlive": false, "internalOrExternal": false, "icon": "setting", "title": "教师菜单"},
       "name": "isystem",
       "id": "d7d6e2e4e2934f2c9385a623fd98c6f3"
     }]
@@ -581,46 +547,39 @@ map.set("2",{
         "path": "/isystem/depart",
         "component": "system/DepartList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "部门管理"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "单项指标评分表（男生）"},
         "name": "isystem-depart",
         "id": "45c966826eeff4c99b8f8ebfe74511fc"
       }, {
         "path": "/isystem/user",
         "component": "system/UserList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "用户管理"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "单项指标评分表（女生）"},
         "name": "isystem-user",
         "id": "3f915b2769fc80648e92d04e84ca059d"
       }, {
         "path": "/isystem/role",
         "component": "system/RoleList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "角色管理"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "体重指数（BMI）单项评分表"},
         "name": "isystem-role",
         "id": "e8af452d8948ea49d37c934f5100ae6a"
-      }, {
-        "path": "/isystem/permission",
-        "component": "system/PermissionList",
-        "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "菜单管理"},
-        "name": "isystem-permission",
-        "id": "54dd5457a3190740005c1bfec55b1c34"
       }, {
         "path": "/isystem/dict",
         "component": "system/DictList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "数据字典"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "学期管理"},
         "name": "isystem-dict",
         "id": "f1cb187abf927c88b89470d08615f5ac"
       }, {
-        "path": "/isystem/annountCement",
-        "component": "system/SysAnnouncementList",
+        "path": "/isystem/dict",
+        "component": "system/DictList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "系统通告"},
-        "name": "isystem-annountCement",
-        "id": "e08cb190ef230d5d4f03824198773950"
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "成绩查看"},
+        "name": "isystem-dict",
+        "id": "f1cb187abf927c88b89470d08615f5ac"
       }],
-      "meta": {"keepAlive": false, "internalOrExternal": false, "icon": "setting", "title": "用户manager"},
+      "meta": {"keepAlive": false, "internalOrExternal": false, "icon": "setting", "title": "管理员菜单"},
       "name": "isystem",
       "id": "d7d6e2e4e2934f2c9385a623fd98c6f3"
     }]

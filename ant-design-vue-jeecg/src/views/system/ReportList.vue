@@ -6,8 +6,8 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="12">
           <a-col :md="7" :sm="8">
-            <a-form-item label="学期名称" :labelCol="{span: 6}" :wrapperCol="{span: 14, offset: 1}">
-              <a-input placeholder="请输入学期名称" v-model="queryParam.dictName"></a-input>
+            <a-form-item label="学生姓名" :labelCol="{span: 6}" :wrapperCol="{span: 14, offset: 1}">
+              <a-input placeholder="请输入学生姓名" v-model="queryParam.dictName"></a-input>
             </a-form-item>
           </a-col>
           <!--<a-col :md="7" :sm="8">
@@ -44,7 +44,7 @@
         :loading="loading"
         @change="handleTableChange">
         <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">
+          <a @click="push(record)">
             <a-icon type="edit"/>
             编辑
           </a>
@@ -97,7 +97,7 @@
             }
           },
           {
-            title: '学期名称',
+            title: '学生姓名',
             align: "left",
             dataIndex: 'dictName',
           },
@@ -150,6 +150,13 @@
       }
     },
     methods: {
+      push() {
+        this.$router.push({
+          path: '/isystem/dict',
+          name: 'isystem-dict'
+        });
+      },
+
       getQueryParams() {
         var param = Object.assign({}, this.queryParam, this.isorter);
         param.field = this.getQueryField();

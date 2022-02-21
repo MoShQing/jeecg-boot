@@ -1,11 +1,11 @@
 <template>
   <div class="user-wrapper" :class="theme">
-    <span class="action">
+    <!--<span class="action">
       <a class="logout_title" target="_blank" href="http://jeecg-boot.mydoc.io">
         <a-icon type="question-circle-o"></a-icon>
       </a>
     </span>
-    <header-notice class="action"/>
+    <header-notice class="action"/>-->
     <a-dropdown>
       <span class="action action-full ant-dropdown-link user-dropdown-menu">
         <a-avatar class="avatar" size="small" :src="getAvatar()"/>
@@ -25,8 +25,8 @@
           </router-link>
         </a-menu-item>
         <a-menu-item key="3"  @click="systemSetting">
-           <a-icon type="tool"/>
-           <span>系统设置</span>
+          <a-icon type="tool"/>
+          <span>系统设置</span>
         </a-menu-item>
         <a-menu-item key="4" @click="updatePassword">
           <a-icon type="setting"/>
@@ -36,17 +36,17 @@
           <a-icon type="cluster"/>
           <span>切换部门</span>
         </a-menu-item>
-       <!-- <a-menu-item key="2" disabled>
-          <a-icon type="setting"/>
-          <span>测试</span>
-        </a-menu-item>
-        <a-menu-divider/>
-        <a-menu-item key="3">
-          <a href="javascript:;" @click="handleLogout">
-            <a-icon type="logout"/>
-            <span>退出登录</span>
-          </a>
-        </a-menu-item>-->
+        <!-- <a-menu-item key="2" disabled>
+           <a-icon type="setting"/>
+           <span>测试</span>
+         </a-menu-item>
+         <a-menu-divider/>
+         <a-menu-item key="3">
+           <a href="javascript:;" @click="handleLogout">
+             <a-icon type="logout"/>
+             <span>退出登录</span>
+           </a>
+         </a-menu-item>-->
       </a-menu>
     </a-dropdown>
     <span class="action">
@@ -100,7 +100,7 @@
           content: '真的要注销登录吗 ?',
           onOk() {
             return that.Logout({}).then(() => {
-                window.location.href="/";
+              window.location.href="/";
               //window.location.reload()
             }).catch(err => {
               that.$message.error({

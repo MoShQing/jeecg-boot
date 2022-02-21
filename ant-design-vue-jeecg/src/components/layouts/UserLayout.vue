@@ -4,12 +4,12 @@
       <div class="top">
         <div class="header">
           <a href="/">
-            <img src="~@/assets/logo.svg" class="logo" alt="logo">
-            <span class="title">Jeecg Boot</span>
+            <img src="~@/assets/logoN.png" class="logo" alt="logo">
+            <span class="title">体测系统</span>
           </a>
         </div>
         <div class="desc">
-          Jeecg Boot 是中国最具影响力的 企业级 快速开发平台
+          XXXX这里可以添加一段描述文字。
         </div>
       </div>
 
@@ -65,7 +65,7 @@
     .container {
       width: 100%;
       min-height: 100%;
-      background: #f0f2f5 url(~@/assets/background.svg) no-repeat 50%;
+      background: #f0f2f5 url(~@/assets/bg.png) no-repeat 50%;
       background-size: 100%;
       padding: 110px 0 144px;
       position: relative;

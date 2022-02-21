@@ -2,60 +2,60 @@
   <div class="page-header-index-wide">
     <a-row :gutter="24">
       <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="总销售额" total="￥126,560">
-          <a-tooltip title="指标说明" slot="action">
+        <chart-card :loading="loading" title="总优秀人数" total="57">
+          <a-tooltip title="说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
           <div>
             <trend flag="up" style="margin-right: 16px;">
-              <span slot="term">周同比</span>
+              <span slot="term">优秀率</span>
               12%
             </trend>
             <trend flag="down">
-              <span slot="term">日同比</span>
+              <span slot="term">不及格率</span>
               11%
             </trend>
           </div>
-          <template slot="footer">日均销售额<span>￥ 234.56</span></template>
+          <template slot="footer">总及格人数 <span>98人</span></template>
         </chart-card>
       </a-col>
       <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="访问量" :total="8846 | NumberFormat">
-          <a-tooltip title="指标说明" slot="action">
+        <chart-card :loading="loading" title="肺活量平均值" :total="4105 | NumberFormat">
+          <a-tooltip title="说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
-          <div>
+          <!--<div>
             <mini-area />
-          </div>
-          <template slot="footer">日访问量<span> {{ '1234' | NumberFormat }}</span></template>
+          </div>-->
+          <template slot="footer">肺活量等级占比最高<span> {{ '良好' }}</span></template>
         </chart-card>
       </a-col>
       <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="支付笔数" :total="6560 | NumberFormat">
-          <a-tooltip title="指标说明" slot="action">
+        <chart-card :loading="loading" title="体前屈" :total="23.9 | NumberFormat">
+          <a-tooltip title="说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
-          <div>
+          <!--<div>
             <mini-bar :height="40" />
-          </div>
-          <template slot="footer">转化率 <span>60%</span></template>
+          </div>-->
+          <template slot="footer">及格率 <span>73%</span></template>
         </chart-card>
       </a-col>
       <a-col :sm="24" :md="12" :xl="6" :style="{ marginBottom: '24px' }">
-        <chart-card :loading="loading" title="运营活动效果" total="78%">
-          <a-tooltip title="指标说明" slot="action">
+        <chart-card :loading="loading" title="立定跳远" total="255">
+          <a-tooltip title="说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
-          <div>
+          <!--<div>
             <mini-progress color="rgb(19, 194, 194)" :target="80" :percentage="78" :height="8" />
-          </div>
+          </div>-->
           <template slot="footer">
             <trend flag="down" style="margin-right: 16px;">
-              <span slot="term">同周比</span>
+              <span slot="term">优秀率</span>
               12%
             </trend>
             <trend flag="up">
-              <span slot="term">日环比</span>
+              <span slot="term">及格率</span>
               80%
             </trend>
           </template>
@@ -66,7 +66,7 @@
     <a-card :loading="loading" :bordered="false" :body-style="{padding: '0'}">
       <div class="salesCard">
         <a-tabs default-active-key="1" size="large" :tab-bar-style="{marginBottom: '24px', paddingLeft: '16px'}">
-          <div class="extra-wrapper" slot="tabBarExtraContent">
+          <!--<div class="extra-wrapper" slot="tabBarExtraContent">
             <div class="extra-item">
               <a>今日</a>
               <a>本周</a>
@@ -74,24 +74,24 @@
               <a>本年</a>
             </div>
             <a-range-picker :style="{width: '256px'}" />
-          </div>
-          <a-tab-pane loading="true" tab="销售额" key="1">
+          </div>-->
+          <a-tab-pane loading="true" tab="单项优秀分布图（男生）" key="1">
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
-                <bar title="销售额排行" :dataSource="barData"/>
+                <bar title="优秀人数排行" :dataSource="barData"/>
               </a-col>
               <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                <rank-list title="门店销售排行榜" :list="rankList"/>
+                <rank-list title="优秀单项人数排行榜" :list="rankList"/>
               </a-col>
             </a-row>
           </a-tab-pane>
-          <a-tab-pane tab="访问量" key="2">
+          <a-tab-pane tab="单项优秀分布图（女生）" key="2">
             <a-row>
               <a-col :xl="16" :lg="12" :md="12" :sm="24" :xs="24">
-                <bar title="销售额趋势" :dataSource="barData"/>
+                <bar title="优秀人数排行" :dataSource="barData2"/>
               </a-col>
               <a-col :xl="8" :lg="12" :md="12" :sm="24" :xs="24">
-                <rank-list title="门店销售排行榜" :list="rankList"/>
+                <rank-list title="优秀单项人数排行榜" :list="rankList"/>
               </a-col>
             </a-row>
           </a-tab-pane>
@@ -99,7 +99,7 @@
       </div>
     </a-card>
 
-    <a-row>
+    <!--<a-row>
       <a-col :span="24">
         <a-card :loading="loading" :bordered="false" title="最近一周访问次数统计" :style="{ marginTop: '24px' }">
           <a-row>
@@ -131,7 +131,7 @@
           <line-chart-multid :fields="visitFields" :dataSource="visitInfo"></line-chart-multid>
         </a-card>
       </a-col>
-    </a-row>
+    </a-row>-->
   </div>
 </template>
 
@@ -151,17 +151,70 @@
   import { getLoginfo,getVisitInfo } from '@/api/api'
 
   const rankList = []
-  for (let i = 0; i < 7; i++) {
-    rankList.push({
-      name: '白鹭岛 ' + (i+1) + ' 号店',
-      total: 1234.56 - i * 100
-    })
-  }
+  rankList.push({
+    name: '肺活量（男）',
+    total: 54
+  },{
+    name: '肺活量（女）',
+    total: 54
+  },{
+    name: '体前屈（男）',
+    total: 54
+  },{
+    name: '体前屈（女）',
+    total: 54
+  },{
+    name: '1000米（男）',
+    total: 54
+  },{
+    name: '800米（女）',
+    total: 54
+  },{
+    name: '50米（男）',
+    total: 54
+  })
+
   const barData = []
+  const barData2 = []
   for (let i = 0; i < 12; i += 1) {
     barData.push({
-      x: `${i + 1}月`,
-      y: Math.floor(Math.random() * 1000) + 200
+      x: '肺活量',
+      y: Math.floor(Math.random() * (40 - 1 + 1) + 1)
+    },{
+      x: '体前屈',
+      y: Math.floor(Math.random() * (40 - 1 + 1) + 1)
+    },{
+      x: '立定跳远',
+      y: Math.floor(Math.random() * (40 - 1 + 1) + 1)
+    },{
+      x: '引体向上',
+      y: Math.floor(Math.random() * (40 - 1 + 1) + 1)
+    },{
+      x: '1000米',
+      y: Math.floor(Math.random() * (40 - 1 + 1) + 1)
+    },{
+      x: '50米',
+      y: Math.floor(Math.random() * (40 - 1 + 1) + 1)
+    })
+
+    barData2.push({
+      x: '肺活量',
+      y: Math.floor(Math.random() * (40 - 1 + 1) + 1)
+    },{
+      x: '体前屈',
+      y: Math.floor(Math.random() * (40 - 1 + 1) + 1)
+    },{
+      x: '立定跳远',
+      y: Math.floor(Math.random() * (40 - 1 + 1) + 1)
+    },{
+      x: '仰卧起坐',
+      y: Math.floor(Math.random() * (40 - 1 + 1) + 1)
+    },{
+      x: '800米',
+      y: Math.floor(Math.random() * (40 - 1 + 1) + 1)
+    },{
+      x: '50米',
+      y: Math.floor(Math.random() * (40 - 1 + 1) + 1)
     })
   }
   export default {
@@ -185,6 +238,7 @@
         center: null,
         rankList,
         barData,
+        barData2,
         loginfo:{},
         visitFields:['ip','visit'],
         visitInfo:[],
