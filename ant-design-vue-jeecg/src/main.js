@@ -4,6 +4,9 @@ import Storage from 'vue-ls'
 import router from './router'
 import store from './store/'
 
+// main.js
+require('./mock');
+
 import { VueAxios } from "@/utils/request"
 
 import Antd from 'ant-design-vue'
