@@ -115,7 +115,7 @@
     mounted() {
       this.loadData();
       //this.timerFun();
-      this.initWebSocket();
+      // this.initWebSocket();
       this.heartCheckFun();
     },
     destroyed: function () { // 离开页面生命周期函数
@@ -263,7 +263,7 @@
         //没连接上会一直重连，设置延迟避免请求过多
         setTimeout(function () {
           console.info("尝试重连...");
-          that.initWebSocket();
+          // that.initWebSocket();
           that.lockReconnect = false;
         }, 5000);
       },

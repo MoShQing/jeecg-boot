@@ -11,9 +11,9 @@
               size="large"
               v-decorator="['username',validatorRules.username,{ validator: this.handleUsernameOrEmail }]"
               type="text"
-              placeholder="请输入帐户名 / jeecg">
+              placeholder="请输入帐户名 / admin">
               <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
+            jeccg</a-input>
           </a-form-item>
 
           <a-form-item>
@@ -24,10 +24,10 @@
               autocomplete="false"
               placeholder="密码 / 123456">
               <a-icon slot="prefix" type="lock" :style="{ color: 'rgba(0,0,0,.25)' }"/>
-            </a-input>
+            123456</a-input>
           </a-form-item>
 
-          <a-row :gutter="0">
+          <!--<a-row :gutter="0">
             <a-col :span="14">
               <a-form-item>
                 <a-input
@@ -44,11 +44,11 @@
             <a-col  :span="10">
               <j-graphic-code @success="generateCode" ref="jgraphicCodeRef" style="float: right" remote></j-graphic-code>
             </a-col>
-          </a-row>
+          </a-row>-->
 
 
         </a-tab-pane>
-        <a-tab-pane key="tab2" tab="手机号登陆">
+        <!--<a-tab-pane key="tab2" tab="手机号登陆">
           <a-form-item>
             <a-input
               v-decorator="['mobile',validatorRules.mobile]"
@@ -80,11 +80,11 @@
                 v-text="!state.smsSendBtn && '获取验证码' || (state.time+' s')"></a-button>
             </a-col>
           </a-row>
-        </a-tab-pane>
+        </a-tab-pane>-->
       </a-tabs>
 
       <a-form-item>
-        <a-checkbox v-decorator="['rememberMe', {initialValue: true, valuePropName: 'checked'}]" >自动登陆</a-checkbox>
+        <!--<a-checkbox v-decorator="['rememberMe', {initialValue: true, valuePropName: 'checked'}]" >自动登陆</a-checkbox>-->
         <router-link :to="{ name: 'alteration'}" class="forge-password" style="float: right;">
           忘记密码
         </router-link>
@@ -172,7 +172,7 @@
   import { timeFix } from "@/utils/util"
   import Vue from 'vue'
   import { ACCESS_TOKEN ,ENCRYPTED_STRING} from "@/store/mutation-types"
-  import JGraphicCode from '@/components/jeecg/JGraphicCode'
+  // import JGraphicCode from '@/components/jeecg/JGraphicCode'
   import { putAction } from '@/api/manage'
   import { postAction } from '@/api/manage'
   import { encryption , getEncryptedString } from '@/utils/encryption/aesEncrypt'
@@ -182,7 +182,7 @@
   export default {
     components: {
       TwoStepCaptcha,
-      JGraphicCode
+      // JGraphicCode
     },
     data () {
       return {
@@ -257,9 +257,9 @@
               loginParams.password = values.password
               loginParams.remember_me = values.rememberMe
               // update-begin- --- author:scott ------ date:20190805 ---- for:密码加密逻辑暂时注释掉，有点问题
-              let checkParams = this.$refs.jgraphicCodeRef.getLoginParam()
+              /*let checkParams = that.$refs.jgraphicCodeRef.getLoginParam()
               loginParams.captcha = checkParams.checkCode
-              loginParams.checkKey = checkParams.checkKey
+              loginParams.checkKey = checkParams.checkKey*/
 
               that.Login(loginParams).then((res) => {
                 this.departConfirm(res)

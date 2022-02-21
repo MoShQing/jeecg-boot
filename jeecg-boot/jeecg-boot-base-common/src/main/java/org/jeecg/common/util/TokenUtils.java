@@ -69,7 +69,8 @@ public class TokenUtils {
      * @return
      */
     private static boolean jwtTokenRefresh(String token, String userName, String passWord, RedisUtil redisUtil) {
-        String cacheToken = String.valueOf(redisUtil.get(CommonConstant.PREFIX_USER_TOKEN + token));
+        return true;
+        /*String cacheToken = String.valueOf(redisUtil.get(CommonConstant.PREFIX_USER_TOKEN + token));
         if (oConvertUtils.isNotEmpty(cacheToken)) {
             // 校验token有效性
             if (!JwtUtil.verify(cacheToken, userName, passWord)) {
@@ -87,7 +88,7 @@ public class TokenUtils {
             //update-end--Author:scott  Date:20191005  for：解决每次请求，都重写redis中 token缓存问题
             return true;
         }
-        return false;
+        return false;*/
     }
 
 }

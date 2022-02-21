@@ -63,7 +63,7 @@ public class LoginController {
 		//password = AesEncryptUtil.desEncrypt(sysLoginModel.getPassword().replaceAll("%2B", "\\+")).trim();//密码解密
 		//update-begin--Author:scott  Date:20190805 for：暂时注释掉密码加密逻辑，有点问题
 
-		//update-begin-author:taoyan date:20190828 for:校验验证码
+		/*//update-begin-author:taoyan date:20190828 for:校验验证码
 		Object checkCode = redisUtil.get(sysLoginModel.getCheckKey());
 		if(checkCode==null) {
 			result.error500("验证码失效");
@@ -72,7 +72,7 @@ public class LoginController {
 		if(!checkCode.equals(sysLoginModel.getCaptcha())) {
 			result.error500("验证码错误");
 			return result;
-		}
+		}*/
 		//update-end-author:taoyan date:20190828 for:校验验证码
 		
 		//1. 校验用户是否有效
@@ -115,14 +115,14 @@ public class LoginController {
 	    if(sysUser!=null) {
 	    	sysBaseAPI.addLog("用户名: "+sysUser.getRealname()+",退出成功！", CommonConstant.LOG_TYPE_1, null);
 	    	log.info(" 用户名:  "+sysUser.getRealname()+",退出成功！ ");
-	    	//清空用户登录Token缓存
+	    	/*//清空用户登录Token缓存
 	    	redisUtil.del(CommonConstant.PREFIX_USER_TOKEN + token);
 	    	//清空用户登录Shiro权限缓存
 			redisUtil.del(CommonConstant.PREFIX_USER_SHIRO_CACHE + sysUser.getId());
 			//清空用户的缓存信息（包括部门信息），例如sys:cache:user::<username>
 			redisUtil.del(String.format("%s::%s", CacheConstant.SYS_USERS_CACHE, sysUser.getUsername()));
 			//调用shiro的logout
-			SecurityUtils.getSubject().logout();
+			SecurityUtils.getSubject().logout();*/
 	    	return Result.ok("退出登录成功！");
 	    }else {
 	    	return Result.error("Token无效!");
