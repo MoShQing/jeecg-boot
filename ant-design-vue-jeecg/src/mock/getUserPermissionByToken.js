@@ -44,7 +44,7 @@ let demoList = [
           "path": "/isystem/role",
           "component": "system/RoleList",
           "route": "1",
-          "meta": {"keepAlive": false, "internalOrExternal": false, "title": "体重指数（BMI）单项评分表"},
+          "meta": {"keepAlive": false, "internalOrExternal": false, "title": "体重指数（BMI）"},
           "name": "isystem-role",
           "id": "e8af452d8948ea49d37c934f5100ae6a"
         }, {
@@ -429,15 +429,15 @@ map.set("0",{
         "path": "/isystem/role",
         "component": "system/RoleList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "体重指数（BMI）单项评分表"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "体重指数（BMI）"},
         "name": "isystem-role",
         "id": "e8af452d8948ea49d37c934f5100ae6a"
       }, {
-        "path": "/isystem/dict",
-        "component": "system/DictList",
+        "path": "/isystem/reportview",
+        "component": "system/ReportListView",
         "route": "1",
         "meta": {"keepAlive": false, "internalOrExternal": false, "title": "成绩查看"},
-        "name": "isystem-dict",
+        "name": "isystem-reportview",
         "id": "f1cb187abf927c88b89470d08615f5ac"
       }],
       "meta": {"keepAlive": false, "internalOrExternal": false, "icon": "setting", "title": "学生菜单"},
@@ -491,7 +491,7 @@ map.set("1",{
         "path": "/isystem/role",
         "component": "system/RoleList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "体重指数（BMI）单项评分表"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "体重指数（BMI）"},
         "name": "isystem-role",
         "id": "e8af452d8948ea49d37c934f5100ae6a"
       }, {
@@ -503,10 +503,18 @@ map.set("1",{
         "name": "isystem-dict",
         "id": "f1cb187abf927c88b89470d08615f5ac"
       }, {
+        "path": "/isystem/dict2",
+        "component": "system/DictList2",
+        "route": "1",
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "成绩管理"},
+        "name": "isystem-dict2",
+        "id": "f1cb187abf927c88b89470d08615f5ac1"
+      }, {
         "path": "/isystem/report",
         "component": "system/ReportList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "成绩管理"},
+        "hidden": true,
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "学生成绩管理"},
         "name": "isystem-report",
         "id": "f1cb187abf927c88b89470d08615f5ac2"
       }],
@@ -561,7 +569,7 @@ map.set("2",{
         "path": "/isystem/role",
         "component": "system/RoleList",
         "route": "1",
-        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "体重指数（BMI）单项评分表"},
+        "meta": {"keepAlive": false, "internalOrExternal": false, "title": "体重指数（BMI）"},
         "name": "isystem-role",
         "id": "e8af452d8948ea49d37c934f5100ae6a"
       }, {
@@ -572,11 +580,11 @@ map.set("2",{
         "name": "isystem-dict",
         "id": "f1cb187abf927c88b89470d08615f5ac"
       }, {
-        "path": "/isystem/dict",
-        "component": "system/DictList",
+        "path": "/isystem/reportview",
+        "component": "system/ReportListView",
         "route": "1",
         "meta": {"keepAlive": false, "internalOrExternal": false, "title": "成绩查看"},
-        "name": "isystem-dict",
+        "name": "isystem-reportview",
         "id": "f1cb187abf927c88b89470d08615f5ac"
       }],
       "meta": {"keepAlive": false, "internalOrExternal": false, "icon": "setting", "title": "管理员菜单"},
@@ -587,11 +595,12 @@ map.set("2",{
 });
 
 
-let url = '/jeecg-boot/sys/permission/getUserPermissionByToken';
+let url = '/tice/sys/permission/getUserPermissionByToken';
 
+import {getQueryString} from '@/utils/util'
 export default {
 
-  'get|/jeecg-boot/sys/permission/getUserPermissionByToken': option => {
+  'get|/tice/sys/permission/getUserPermissionByToken': option => {
     let token = getQueryString(option.url,"token");
     console.log('获取到参数为：'+token);
     let permission = map.get(token);
@@ -599,11 +608,4 @@ export default {
     return permission
   }
 
-}
-
-function getQueryString(url, name) {
-  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-  var r = url.substr(1).match(reg);
-  if (r != null) return unescape(r[2]);
-  return null;
 }

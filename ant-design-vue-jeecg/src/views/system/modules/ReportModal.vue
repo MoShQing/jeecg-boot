@@ -8,32 +8,78 @@
     @cancel="handleCancel"
     cancelText="关闭"
   >
+    <template slot="footer">
+      <a-button key="back" v-show="!disableSubmit" @click="handleCancel">
+        取消
+      </a-button>
+      <a-button key="submit" v-show="!disableSubmit" type="primary" @click="handleOk">
+        确定
+      </a-button>
+    </template>
+
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
-
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="学期名称">
-          <a-input placeholder="请输入学期名称" v-decorator="[ 'dictName', validatorRules.dictName]"/>
+          label="学生姓名">
+          <a-input :disabled="true" v-decorator="[ 'dictName', validatorRules.dictName]"/>
         </a-form-item>
 
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="编辑状态">
-          <a-select placeholder="请选择编辑状态" v-decorator="[ 'dictCode', {}]">
-            <a-select-option v-for="(log,logindex) in dictCodeList" :key="log.code" :value="log.code">
-              {{ log.name }}
-            </a-select-option>
-          </a-select>
+          label="肺活量">
+          <a-input :disabled="disableSubmit" v-decorator="[ 'description1']"/>
         </a-form-item>
 
         <a-form-item
           :labelCol="labelCol"
           :wrapperCol="wrapperCol"
-          label="描述">
-          <a-input v-decorator="[ 'description1']"/>
+          label="体前屈">
+          <a-input :disabled="disableSubmit" v-decorator="[ 'description2']"/>
+        </a-form-item>
+
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="立定跳远">
+          <a-input :disabled="disableSubmit" v-decorator="[ 'description3']"/>
+        </a-form-item>
+
+        <a-form-item v-show="model.sex =='男'"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="引体向上">
+          <a-input :disabled="disableSubmit" v-decorator="[ 'description44']"/>
+        </a-form-item>
+
+        <a-form-item v-show="model.sex =='男'"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="1000米">
+          <a-input :disabled="disableSubmit" v-decorator="[ 'description5']"/>
+        </a-form-item>
+
+        <a-form-item v-show="model.sex =='女'"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="仰卧起坐">
+          <a-input :disabled="disableSubmit" v-decorator="[ 'description6']"/>
+        </a-form-item>
+
+        <a-form-item v-show="model.sex =='女'"
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="800米">
+          <a-input :disabled="disableSubmit" v-decorator="[ 'description7']"/>
+        </a-form-item>
+
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="50米">
+          <a-input :disabled="disableSubmit" v-decorator="[ 'description8']"/>
         </a-form-item>
 
       </a-form>
@@ -46,13 +92,14 @@
   import { addDict, editDict, duplicateCheck } from '@/api/api'
 
   export default {
-    name: 'DictModal',
+    name: 'ReportModal',
     data() {
       return {
         dictCodeList: [{code:'0',name:'可编辑'},{code:'1',name:'不可编辑'}],
         value: 1,
         title: '操作',
         visible: false,
+        disableSubmit: false,
         model: {},
         labelCol: {
           xs: { span: 24 },

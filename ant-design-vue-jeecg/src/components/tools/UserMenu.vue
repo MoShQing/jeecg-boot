@@ -8,10 +8,10 @@
     <header-notice class="action"/>-->
     <a-dropdown>
       <span class="action action-full ant-dropdown-link user-dropdown-menu">
-        <a-avatar class="avatar" size="small" :src="getAvatar()"/>
+        <a-avatar class="avatar" size="small" :src="require('../../../public/avatar2.jpg')"/>
         <span v-if="isDesktop()">欢迎您，{{ nickname() }}</span>
       </span>
-      <a-menu slot="overlay" class="user-dropdown-menu-wrapper">
+<!--      <a-menu slot="overlay" class="user-dropdown-menu-wrapper">
         <a-menu-item key="0">
           <router-link :to="{ name: 'account-center' }">
             <a-icon type="user"/>
@@ -36,7 +36,7 @@
           <a-icon type="cluster"/>
           <span>切换部门</span>
         </a-menu-item>
-        <!-- <a-menu-item key="2" disabled>
+        &lt;!&ndash; <a-menu-item key="2" disabled>
            <a-icon type="setting"/>
            <span>测试</span>
          </a-menu-item>
@@ -46,8 +46,8 @@
              <a-icon type="logout"/>
              <span>退出登录</span>
            </a>
-         </a-menu-item>-->
-      </a-menu>
+         </a-menu-item>&ndash;&gt;
+      </a-menu>-->
     </a-dropdown>
     <span class="action">
       <a class="logout_title" href="javascript:;" @click="handleLogout">

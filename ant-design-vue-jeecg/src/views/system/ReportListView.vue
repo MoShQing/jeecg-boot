@@ -4,24 +4,24 @@
     <!-- 左侧面板 -->
     <div class="table-page-search-wrapper">
       <a-form layout="inline" @keyup.enter.native="searchQuery">
-        <a-row :gutter="12">
+<!--        <a-row :gutter="12">
           <a-col :md="7" :sm="8">
             <a-form-item label="学生姓名" :labelCol="{span: 6}" :wrapperCol="{span: 14, offset: 1}">
               <a-input placeholder="请输入学生姓名" v-model="queryParam.dictName"></a-input>
             </a-form-item>
           </a-col>
-          <!--<a-col :md="7" :sm="8">
+          &lt;!&ndash;<a-col :md="7" :sm="8">
             <a-form-item label="字典编号" :labelCol="{span: 6}" :wrapperCol="{span: 14, offset: 1}">
               <a-input placeholder="请输入字典编号" v-model="queryParam.dictCode"></a-input>
             </a-form-item>
-          </a-col>-->
+          </a-col>&ndash;&gt;
           <a-col :md="7" :sm="8">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
               <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
             </span>
           </a-col>
-        </a-row>
+        </a-row>-->
       </a-form>
 
       <div class="table-operator" style="border-top: 5px">
@@ -44,14 +44,14 @@
         :loading="loading"
         @change="handleTableChange">
         <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">
+          <a @click="handleView(record)">
             <a-icon type="edit"/>
-            单项指标
+            单项指标查看
           </a>
           <a-divider type="vertical"/>
-          <a @click="editDictItem(record)">
+          <a @click="viewDictItem(record)">
             <a-icon type="setting"/>
-            体重指数
+            体重指数查看
           </a>
         </span>
       </a-table>
@@ -80,8 +80,8 @@
         visible: false,
         // 查询条件
         queryParam: {
-          dictCode: "",
-          dictName: "",
+          dictCode: '',
+          dictName: "A",
         },
         // 表头
         columns: [
@@ -241,6 +241,11 @@
       editDictItem(record) {
         this.$refs.dictItemList.edit(record);
       },
+      viewDictItem(record) {
+        this.$refs.dictItemList.view(record);
+        this.$refs.dictItemList.disableSubmit = true;
+      },
+
       // 重置字典类型搜索框的内容
       searchReset() {
         var that = this;

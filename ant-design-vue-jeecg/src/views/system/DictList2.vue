@@ -6,8 +6,8 @@
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="12">
           <a-col :md="7" :sm="8">
-            <a-form-item label="学生姓名" :labelCol="{span: 6}" :wrapperCol="{span: 14, offset: 1}">
-              <a-input placeholder="请输入学生姓名" v-model="queryParam.dictName"></a-input>
+            <a-form-item label="学期名称" :labelCol="{span: 6}" :wrapperCol="{span: 14, offset: 1}">
+              <a-input placeholder="请输入学期名称" v-model="queryParam.dictName"></a-input>
             </a-form-item>
           </a-col>
           <!--<a-col :md="7" :sm="8">
@@ -24,15 +24,15 @@
         </a-row>
       </a-form>
 
-      <div class="table-operator" style="border-top: 5px">
-        <!--<a-button @click="handleAdd" type="primary" icon="plus">添加</a-button>
+      <!--<div class="table-operator" style="border-top: 5px">
+        <a-button @click="handleAdd" type="primary" icon="plus">添加</a-button>
         <a-button type="primary" icon="download" @click="handleExportXls('字典信息')">导出</a-button>
         <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
           <a-button type="primary" icon="import">导入</a-button>
         </a-upload>
 
-        <a-button type="primary" icon="hdd" @click="openDeleteList">回收站</a-button>-->
-      </div>
+        <a-button type="primary" icon="hdd" @click="openDeleteList">回收站</a-button>
+      </div>-->
 
       <a-table
         ref="table"
@@ -44,20 +44,21 @@
         :loading="loading"
         @change="handleTableChange">
         <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">
+          <a @click="push(record)">
             <a-icon type="edit"/>
-            单项指标
+            成绩管理入口
           </a>
+<!--          <a-divider type="vertical"/>
+          <a @click="editDictItem(record)"><a-icon type="setting"/> 字典配置</a>
           <a-divider type="vertical"/>
-          <a @click="editDictItem(record)">
-            <a-icon type="setting"/>
-            体重指数
-          </a>
+          <a-popconfirm title="确定删除吗?" @confirm="() =>handleDelete(record.id)">
+            <a>删除</a>
+          </a-popconfirm>-->
         </span>
       </a-table>
 
     </div>
-    <report-modal ref="modalForm" @ok="modalFormOk"></report-modal>
+    <dict-modal ref="modalForm" @ok="modalFormOk"></dict-modal>  <!-- 字典类型 -->
     <dict-item-list ref="dictItemList"></dict-item-list>
     <dict-delete-list ref="dictDeleteList"></dict-delete-list>
   </a-card>
@@ -66,21 +67,21 @@
 <script>
   import { filterObj } from '@/utils/util';
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import ReportModal from './modules/ReportModal'
+  import DictModal from './modules/DictModal'
   import DictItemList from './DictItemList'
   import DictDeleteList from './DictDeleteList'
 
   export default {
     name: "DictList",
     mixins:[JeecgListMixin],
-    components: {ReportModal, DictItemList,DictDeleteList},
+    components: {DictModal, DictItemList,DictDeleteList},
     data() {
       return {
         description: '这是数据字典页面',
         visible: false,
         // 查询条件
         queryParam: {
-          dictCode: "",
+          dictCode: "0",
           dictName: "",
         },
         // 表头
@@ -96,14 +97,14 @@
             }
           },
           {
-            title: '学生姓名',
+            title: '学期名称',
             align: "left",
             dataIndex: 'dictName',
           },
           {
-            title: '性别',
+            title: '编辑状态',
             align: "left",
-            dataIndex: 'sex',
+            dataIndex: 'dictCode',
             customRender: function (text) {
               if (text == 1) {
                 return "禁用";
@@ -115,77 +116,9 @@
             }
           },
           {
-            title: '肺活量',
+            title: '描述',
             align: "left",
-            dataIndex: 'description1',
-          },
-          {
-            title: '体前屈',
-            align: "left",
-            dataIndex: 'description2',
-          },
-          {
-            title: '立定跳远',
-            align: "left",
-            dataIndex: 'description3',
-          },
-          {
-            title: '引体向上',
-            align: "left",
-            dataIndex: 'description4',
-            customRender: function (text, row, index) {
-              if (row.sex == '男') {
-                return text;
-              } else {
-                return '--';
-              }
-            }
-          },
-          {
-            title: '1000米',
-            align: "left",
-            dataIndex: 'description5',
-            customRender: function (text, row, index) {
-              if (row.sex == '男') {
-                return text;
-              } else {
-                return '--';
-              }
-            }
-          },
-          {
-            title: '仰卧起坐',
-            align: "left",
-            dataIndex: 'description6',
-            customRender: function (text, row, index) {
-              if (row.sex == '女') {
-                return text;
-              } else {
-                return '--';
-              }
-            }
-          },
-          {
-            title: '800米',
-            align: "left",
-            dataIndex: 'description7',
-            customRender: function (text, row, index) {
-              if (row.sex == '女') {
-                return text;
-              } else {
-                return '--';
-              }
-            }
-          },
-          {
-            title: '50米',
-            align: "left",
-            dataIndex: 'description8',
-          },
-          {
-            title: '体重指数',
-            align: "left",
-            dataIndex: 'description9',
+            dataIndex: 'description',
           },
           {
             title: '操作',
@@ -204,10 +137,10 @@
           sm: {span: 19},
         },
         url: {
-          list: "/sys/report/list",
-          delete: "/sys/report/delete",
-          exportXlsUrl: "sys/report/exportXls",
-          importExcelUrl: "sys/report/importExcel",
+          list: "/sys/dict/list",
+          delete: "/sys/dict/delete",
+          exportXlsUrl: "sys/dict/exportXls",
+          importExcelUrl: "sys/dict/importExcel",
         },
       }
     },
@@ -219,8 +152,8 @@
     methods: {
       push() {
         this.$router.push({
-          path: '/isystem/dict',
-          name: 'isystem-dict'
+          path: '/isystem/report',
+          name: 'isystem-report'
         });
       },
 

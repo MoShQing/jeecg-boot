@@ -69,6 +69,10 @@ export const JeecgListMixin = {
         this.ipagination.current = 1;
       }
       var params = this.getQueryParams();//查询条件
+
+      let v_token = Vue.ls.get(ACCESS_TOKEN);
+      params.token = v_token;
+
       this.loading = true;
       getAction(this.url.list, params).then((res) => {
         if (res.success) {
@@ -188,6 +192,13 @@ export const JeecgListMixin = {
       this.$refs.modalForm.title = "编辑";
       this.$refs.modalForm.disableSubmit = false;
     },
+
+    handleView: function (record) {
+      this.$refs.modalForm.edit(record);
+      this.$refs.modalForm.title = "详情";
+      this.$refs.modalForm.disableSubmit = true;
+    },
+
     handleAdd: function () {
       this.$refs.modalForm.add();
       this.$refs.modalForm.title = "新增";
