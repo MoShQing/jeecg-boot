@@ -7,7 +7,6 @@
         <sourceRoots>
           <root url="file://$MODULE_DIR$/src/main/java" />
           <root url="file://$MODULE_DIR$/src/main/resources" />
-          <root url="file://$MODULE_DIR$/target/generated-sources/annotations" />
         </sourceRoots>
       </configuration>
     </facet>
@@ -15,27 +14,12 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
-        <datasource-mapping>
-          <factory-entry name="jeecg-boot-module-system" />
-        </datasource-mapping>
+        <datasource-mapping />
         <naming-strategy-map />
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/java/org/jeecg/config/AutoPoiConfig.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/org/jeecg/JeecgApplication.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/org/jeecg/config/MybatisPlusConfig.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/org/jeecg/config/oss/OssBootConfiguration.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/org/jeecg/config/RedisConfig.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/org/jeecg/config/ShiroConfig.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/org/jeecg/config/StaticConfig.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/org/jeecg/config/Swagger2Config.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/org/jeecg/config/WebMvcConfiguration.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/org/jeecg/config/WebSocketConfig.java</file>
-        </fileset>
-      </configuration>
+      <configuration />
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
@@ -45,7 +29,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
-      <sourceFolder url="file://$MODULE_DIR$/target/generated-sources/annotations" isTestSource="false" generated="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
