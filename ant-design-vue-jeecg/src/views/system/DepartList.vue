@@ -1,675 +1,622 @@
-<template>
-  <a-card :bordered="false">
-    <Row style="font-size: large; font-weight: bold; ">表2： 《国家学生体质健康标准》单项指标评分表（男生）</Row>
-    <Br/>
-    <a-table
-      :columns="columns2"  :data-source="statisticData" bordered size="small"
-      :pagination=false
-      :rowKey="(record,index)=>{return index}"></a-table>
-  </a-card>
+<template xmlns:background-color="http://www.w3.org/1999/xhtml">
+  <a-row :gutter="10">
+    <a-col :md="12" :sm="24">
+      <a-card :bordered="false">
+
+        <!-- 按钮操作区域 -->
+        <a-row style="margin-left: 14px">
+          <a-button @click="handleAdd(2)" type="primary">添加子部门</a-button>
+          <a-button @click="handleAdd(1)" type="primary">添加一级部门</a-button>
+          <a-button type="primary" icon="download" @click="handleExportXls('部门信息')">导出</a-button>
+          <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
+            <a-button type="primary" icon="import">导入</a-button>
+          </a-upload>
+          <a-button title="删除多条数据" @click="batchDel" type="default">批量删除</a-button>
+          <!--<a-button @click="refresh" type="default" icon="reload" :loading="loading">刷新</a-button>-->
+        </a-row>
+        <div style="background: #fff;padding-left:16px;height: 100%; margin-top: 5px">
+          <a-alert type="info" :showIcon="true">
+            <div slot="message">
+              当前选择：
+              <a v-if="this.currSelected.title">{{ getCurrSelectedTitle() }}</a>
+              <a v-if="this.currSelected.title" style="margin-left: 10px" @click="onClearSelected">取消选择</a>
+            </div>
+          </a-alert>
+          <a-input-search @search="onSearch" style="width:100%;margin-top: 10px" placeholder="请输入部门名称"/>
+          <!-- 树-->
+          <a-col :md="10" :sm="24">
+            <template>
+              <a-dropdown :trigger="[this.dropTrigger]" @visibleChange="dropStatus">
+               <span style="user-select: none">
+            <a-tree
+              checkable
+              multiple
+              @select="onSelect"
+              @check="onCheck"
+              @rightClick="rightHandle"
+              :selectedKeys="selectedKeys"
+              :checkedKeys="checkedKeys"
+              :treeData="departTree"
+              :checkStrictly="checkStrictly"
+              :expandedKeys="iExpandedKeys"
+              :autoExpandParent="autoExpandParent"
+              @expand="onExpand"/>
+                </span>
+                <!--新增右键点击事件,和增加添加和删除功能-->
+                <a-menu slot="overlay">
+                  <a-menu-item @click="handleAdd(3)" key="1">添加</a-menu-item>
+                  <a-menu-item @click="handleDelete" key="2">删除</a-menu-item>
+                  <a-menu-item @click="closeDrop" key="3">取消</a-menu-item>
+                </a-menu>
+              </a-dropdown>
+            </template>
+          </a-col>
+        </div>
+      </a-card>
+      <!---- author:os_chengtgen -- date:20190827 --  for:切换父子勾选模式 =======------>
+      <div class="drawer-bootom-button">
+        <a-dropdown :trigger="['click']" placement="topCenter">
+          <a-menu slot="overlay">
+            <a-menu-item key="1" @click="switchCheckStrictly(1)">父子关联</a-menu-item>
+            <a-menu-item key="2" @click="switchCheckStrictly(2)">取消关联</a-menu-item>
+            <a-menu-item key="3" @click="checkALL">全部勾选</a-menu-item>
+            <a-menu-item key="4" @click="cancelCheckALL">取消全选</a-menu-item>
+            <a-menu-item key="5" @click="expandAll">展开所有</a-menu-item>
+            <a-menu-item key="6" @click="closeAll">合并所有</a-menu-item>
+          </a-menu>
+          <a-button>
+            树操作 <a-icon type="up" />
+          </a-button>
+        </a-dropdown>
+      </div>
+      <!---- author:os_chengtgen -- date:20190827 --  for:切换父子勾选模式 =======------>
+    </a-col>
+    <a-col :md="12" :sm="24">
+      <a-card :bordered="false">
+        <a-form :form="form">
+          <a-form-item
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            label="机构名称">
+            <a-input placeholder="请输入机构/部门名称" v-decorator="['departName', validatorRules.departName ]"/>
+          </a-form-item>
+          <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="上级部门">
+            <a-tree-select
+              style="width:100%"
+              :dropdownStyle="{maxHeight:'200px',overflow:'auto'}"
+              :treeData="treeData"
+              :disabled="disable"
+              v-model="model.parentId"
+              placeholder="无">
+            </a-tree-select>
+          </a-form-item>
+          <a-form-item
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            label="机构编码">
+            <a-input disabled placeholder="请输入机构编码" v-decorator="['orgCode', validatorRules.orgCode ]"/>
+          </a-form-item>
+          <a-form-item
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            label="机构类型">
+            <template v-if="orgCategoryDisabled">
+              <a-radio-group v-decorator="['orgCategory',validatorRules.orgCategory]" placeholder="请选择机构类型">
+                <a-radio value="1">
+                  公司
+                </a-radio>
+              </a-radio-group>
+            </template>
+            <template v-else>
+              <a-radio-group v-decorator="['orgCategory',validatorRules.orgCategory]" placeholder="请选择机构类型">
+                <a-radio value="2">
+                  部门
+                </a-radio>
+                <a-radio value="3">
+                  岗位
+                </a-radio>
+              </a-radio-group>
+            </template>
+          </a-form-item>
+          <a-form-item
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            label="排序">
+            <a-input-number v-decorator="[ 'departOrder',{'initialValue':0}]"/>
+          </a-form-item>
+          <a-form-item
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            label="手机号">
+            <a-input placeholder="请输入手机号" v-decorator="['mobile', {'initialValue':''}]"/>
+          </a-form-item>
+          <a-form-item
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            label="地址">
+            <a-input placeholder="请输入地址" v-decorator="['address', {'initialValue':''}]"/>
+          </a-form-item>
+          <a-form-item
+            :labelCol="labelCol"
+            :wrapperCol="wrapperCol"
+            label="备注">
+            <a-textarea placeholder="请输入备注" v-decorator="['memo', {'initialValue':''}]"/>
+          </a-form-item>
+        </a-form>
+        <div class="anty-form-btn">
+          <a-button @click="emptyCurrForm" type="default" htmlType="button" icon="sync">重置</a-button>
+          <a-button @click="submitCurrForm" type="primary" htmlType="button" icon="form">修改并保存</a-button>
+        </div>
+      </a-card>
+    </a-col>
+    <depart-modal ref="departModal" @ok="loadTree"></depart-modal>
+  </a-row>
 </template>
-
 <script>
-  import UserModal from './modules/UserModal'
-  import PasswordModal from './modules/PasswordModal'
-  import {putAction} from '@/api/manage';
-  import {frozenBatch} from '@/api/api'
-  import {JeecgListMixin} from '@/mixins/JeecgListMixin'
-  import SysUserAgentModal from "./modules/SysUserAgentModal";
-  import JInput from '@/components/jeecg/JInput'
-
-  const temp = {}; // 当前重复的值,支持多列
-  const mergeCellKey = (text, array, columns) => {
-    let i = 0;
-    if (text !== temp[columns]) {
-      temp[columns] = text;
-      array.forEach((item) => {
-        if (item.key === temp[columns]) {
-          i += 1;
-        }
-      });
-    }
-    return i;
-  };
-  const renderContent = (value, row, index) => {
-    const obj = {
-      children: value,
-      attrs: {},
-    };
-    return obj;
-  };
-
-  export default {
-    name: "UserList",
-    mixins: [JeecgListMixin],
-    components: {
-      SysUserAgentModal,
-      UserModal,
-      PasswordModal,
-      JInput
-    },
-    data() {
-      let that = this;
-      return {
-        description: '单项评分表',
-        columns2: [
-          {
-            title: '等级',
-            dataIndex: 'dj',
-            align:'center',
-            customRender: ( value, row, index ) => {
-              let obj = {
-                children: '',
-                attrs: {}
-              }
-              if (index === 0) {
-                obj = {
-                  children: value,
-                  attrs: { rowSpan: 3 }
-                }
-              }
-
-              if (index === 3) {
-                obj = {
-                  children: value,
-                  attrs: { rowSpan: 2 }
-                }
-              }
-
-              if (index === 5) {
-                obj = {
-                  children: value,
-                  attrs: { rowSpan: 10 }
-                }
-              }
-
-              if (index === 15) {
-                obj = {
-                  children: value,
-                  attrs: { rowSpan: 5 }
-                }
-              }
-              if ([1, 2, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16,17,18,19,20].indexOf(index) !== -1) {
-                obj.attrs.colSpan = 0
-              }
-              return obj
-            },
-          },
-          {
-            title: '年级',
-            align:'center',
-            customRender: renderContent,
-            children: [
-              {
-                title: '分值/项目',
-                align:'center',
-                dataIndex: 'fzxm',
-                key: 'fzxm',
-              }
-            ]
-          },
-          {
-            title: '大一 大二',
-            children: [
-              {
-                title: '肺活量',
-                align:'center',
-                width: 60,
-                dataIndex: 'fhl_1',
-                key: 'fhl_1',
-              }
-            ]
-          },
-          {
-            title: '大三 大四',
-            children: [
-              {
-                title: '肺活量',
-                align:'center',
-                width: 60,
-                dataIndex: 'fhl_2',
-                key: 'fhl_2',
-              }
-            ]
-          },
-          {
-            title: '大一 大二',
-            children: [
-              {
-                title: '体前屈',
-                align:'center',
-                width: 60,
-                dataIndex: 'tqq_1',
-                key: 'tqq_1',
-              }
-            ]
-          },
-          {
-            title: '大三 大四',
-            children: [
-              {
-                title: '体前屈',
-                align:'center',
-                width: 60,
-                dataIndex: 'tqq_2',
-                key: 'tqq_2',
-              }
-            ]
-          },
-          {
-            title: '大一 大二',
-            children: [
-              {
-                title: '立定跳远',
-                width: 60,
-                align:'center',
-                dataIndex: 'ldty_1',
-                key: 'ldty_1',
-              }
-            ]
-          },
-          {
-            title: '大三 大四',
-            children: [
-              {
-                title: '立定跳远',
-                width: 60,
-                align:'center',
-                dataIndex: 'ldty_2',
-                key: 'ldty_2',
-              }
-            ]
-          },
-          {
-            title: '大一 大二',
-            children: [
-              {
-                title: '引体向上',
-                width: 60,
-                align:'center',
-                dataIndex: 'ytxs_1',
-                key: 'ytxs_1',
-              }
-            ]
-          },
-          {
-            title: '大三 大四',
-            children: [
-              {
-                title: '引体向上',
-                width: 60,
-                align:'center',
-                dataIndex: 'ytxs_2',
-                key: 'ytxs_2',
-              }
-            ]
-          },
-          {
-            title: '大一 大二',
-            children: [
-              {
-                title: '1000米',
-                width: 60,
-                align:'center',
-                dataIndex: 'otm_1',
-                key: 'otm_1',
-              }
-            ]
-          },
-          {
-            title: '大三 大四',
-            children: [
-              {
-                title: '1000米',
-                width: 60,
-                align:'center',
-                dataIndex: 'otm_2',
-                key: 'otm_2',
-              }
-            ]
-          },
-          {
-            title: '大一 大二',
-            children: [
-              {
-                title: '50米',
-                width: 60,
-                align:'center',
-                dataIndex: 'ftm_1',
-                key: 'ftm_1',
-              }
-            ]
-          },
-          {
-            title: '大三 大四',
-            children: [
-              {
-                title: '50米',
-                width: 60,
-                align:'center',
-                dataIndex: 'ftm_2',
-                key: 'ftm_2',
-              }
-            ]
-          },
-        ],
-        url: {
-          imgerver: window._CONFIG['domianURL'] + "/sys/common/view",
-          syncUser: "/process/extActProcess/doSyncUser",
-          list: "/sys/user/list",
-          delete: "/sys/user/delete",
-          deleteBatch: "/sys/user/deleteBatch",
-          exportXlsUrl: "/sys/user/exportXls",
-          importExcelUrl: "sys/user/importExcel",
-        },
-        statisticData: [{
-          dj: '优秀',
-          fzxm:'100',
-          fhl_1: 5040,
-          fhl_2: 5140,
-          tqq_1: 24.9,
-          tqq_2: 25.1,
-          ldty_1: 273,
-          ldty_2: 275,
-          ytxs_1: 19,
-          ytxs_2: 20,
-          otm_1: '3分17秒',
-          otm_2: '3分15秒',
-          ftm_1: 6.7,
-          ftm_2: 6.6
-        },
-          {
-            dj: '优秀',
-            fzxm:'95',
-            fhl_1: 4920,
-            fhl_2: 5020,
-            tqq_1: 23.1,
-            tqq_2: 23.3,
-            ldty_1: 268,
-            ldty_2: 270,
-            ytxs_1: 18,
-            ytxs_2: 19,
-            otm_1: '3分22秒',
-            otm_2: '3分20秒',
-            ftm_1: 6.8,
-            ftm_2: 6.7
-          },
-          {
-            dj: '优秀',
-            fzxm:'90',
-            fhl_1: 4800,
-            fhl_2: 4900,
-            tqq_1: 21.3,
-            tqq_2: 21.5,
-            ldty_1: 263,
-            ldty_2: 265,
-            ytxs_1: 17,
-            ytxs_2: 18,
-            otm_1: '3分27秒',
-            otm_2: '3分25秒',
-            ftm_1: 6.9,
-            ftm_2: 6.8
-          },
-          {
-            dj: '良好',
-            fzxm:'85',
-            fhl_1: 4550,
-            fhl_2: 4650,
-            tqq_1: 19.5,
-            tqq_2: 19.9,
-            ldty_1: 256,
-            ldty_2: 258,
-            ytxs_1: 16,
-            ytxs_2: 17,
-            otm_1: '3分34秒',
-            otm_2: '3分32秒',
-            ftm_1: 7.0,
-            ftm_2: 6.9
-          },
-          {
-            dj: '良好',
-            fzxm:'80',
-            fhl_1: 4300,
-            fhl_2: 4400,
-            tqq_1: 17.7,
-            tqq_2: 18.2,
-            ldty_1: 248,
-            ldty_2: 250,
-            ytxs_1: 15,
-            ytxs_2: 16,
-            otm_1: '3分42秒',
-            otm_2: '3分40秒',
-            ftm_1: 7.1,
-            ftm_2: 7.0
-          },
-          {
-            dj: '及格',
-            fzxm:'78',
-            fhl_1: 4180,
-            fhl_2: 4280,
-            tqq_1: 16.3,
-            tqq_2: 16.8,
-            ldty_1: 244,
-            ldty_2: 246,
-            ytxs_1: '',
-            ytxs_2:'',
-            otm_1: '3分47秒',
-            otm_2: '3分45秒',
-            ftm_1: 7.3,
-            ftm_2: 7.2
-          },
-          {
-            dj: '及格',
-            fzxm:'76',
-            fhl_1: 4060,
-            fhl_2: 4160,
-            tqq_1: 14.9,
-            tqq_2: 15.4,
-            ldty_1: 240,
-            ldty_2: 242,
-            ytxs_1: 14,
-            ytxs_2: 15,
-            otm_1: '3分52秒',
-            otm_2: '3分50秒',
-            ftm_1: 7.5,
-            ftm_2: 7.4
-          },
-          {
-            dj: '及格',
-            fzxm:'74',
-            fhl_1: 3940,
-            fhl_2: 4040,
-            tqq_1: 13.5,
-            tqq_2: 14.0,
-            ldty_1:236,
-            ldty_2: 238,
-            ytxs_1: '',
-            ytxs_2: '',
-            otm_1: '3分57秒',
-            otm_2: '3分55秒',
-            ftm_1: 7.7,
-            ftm_2: 7.6
-          },
-          {
-            dj: '及格',
-            fzxm:'72',
-            fhl_1: 3820,
-            fhl_2: 3920,
-            tqq_1: 12.1,
-            tqq_2: 12.6,
-            ldty_1: 232,
-            ldty_2: 234,
-            ytxs_1: 13,
-            ytxs_2: 14,
-            otm_1: '4分02秒',
-            otm_2: '4分00秒',
-            ftm_1: 7.9,
-            ftm_2: 7.8
-          },
-          {
-            dj: '及格',
-            fzxm:'70',
-            fhl_1: 3700,
-            fhl_2: 3800,
-            tqq_1: 10.7,
-            tqq_2: 11.2,
-            ldty_1: 228,
-            ldty_2: 230,
-            ytxs_1: '',
-            ytxs_2: '',
-            otm_1: '4分07秒',
-            otm_2: '4分05秒',
-            ftm_1: 8.1,
-            ftm_2: 8.0
-          },
-          {
-            dj: '及格',
-            fzxm:'68',
-            fhl_1: 3580,
-            fhl_2: 3680,
-            tqq_1: 9.3,
-            tqq_2: 9.8,
-            ldty_1: 224,
-            ldty_2: 226,
-            ytxs_1: 12,
-            ytxs_2: 13,
-            otm_1: '4分12秒',
-            otm_2: '4分10秒',
-            ftm_1: 8.3,
-            ftm_2: 8.2
-          },
-          {
-            dj: '及格',
-            fzxm:'66',
-            fhl_1: 3460,
-            fhl_2: 3560,
-            tqq_1: 7.9,
-            tqq_2: 8.4,
-            ldty_1: 220,
-            ldty_2: 222,
-            ytxs_1: '',
-            ytxs_2: '',
-            otm_1: '4分17秒',
-            otm_2: '4分15秒',
-            ftm_1: 8.5,
-            ftm_2: 8.4
-          },
-          {
-            dj: '及格',
-            fzxm:'64',
-            fhl_1: 3340,
-            fhl_2: 3440,
-            tqq_1: 6.5,
-            tqq_2: 7.0,
-            ldty_1: 216,
-            ldty_2: 218,
-            ytxs_1: 11,
-            ytxs_2: 12,
-            otm_1: '4分22秒',
-            otm_2: '4分20秒',
-            ftm_1: 8.7,
-            ftm_2: 8.6
-          },
-          {
-            dj: '及格',
-            fzxm:'62',
-            fhl_1: 3220,
-            fhl_2: 3320,
-            tqq_1: 5.1,
-            tqq_2: 5.6,
-            ldty_1: 212,
-            ldty_2: 214,
-            ytxs_1: '',
-            ytxs_2: '',
-            otm_1: '4分27秒',
-            otm_2: '4分25秒',
-            ftm_1: 8.9,
-            ftm_2: 8.8
-          },
-          {
-            dj: '及格',
-            fzxm:'60',
-            fhl_1: 3100,
-            fhl_2: 3200,
-            tqq_1: 3.7,
-            tqq_2: 4.2,
-            ldty_1: 208,
-            ldty_2: 210,
-            ytxs_1: 10,
-            ytxs_2: 11,
-            otm_1: '4分32秒',
-            otm_2: '4分30秒',
-            ftm_1: 9.1,
-            ftm_2: 9.0
-          },
-          {
-            dj: '不及格',
-            fzxm:'50',
-            fhl_1: 2940,
-            fhl_2: 3030,
-            tqq_1: 2.7,
-            tqq_2: 3.2,
-            ldty_1: 203,
-            ldty_2: 205,
-            ytxs_1: 9,
-            ytxs_2: 10,
-            otm_1: '4分52秒',
-            otm_2: '4分50秒',
-            ftm_1: 9.3,
-            ftm_2: 9.2
-          },
-          {
-            dj: '不及格',
-            fzxm:'40',
-            fhl_1: 1920,
-            fhl_2: 1970,
-            tqq_1: 4.4,
-            tqq_2: 4.9,
-            ldty_1: 141,
-            ldty_2: 142,
-            ytxs_1: 22,
-            ytxs_2: 23,
-            otm_1: '4分54秒',
-            otm_2: '4分52秒',
-            ftm_1: 10.7,
-            ftm_2: 10.6
-          },
-          {
-            dj: '不及格',
-            fzxm:'30',
-            fhl_1: 2620,
-            fhl_2: 2690,
-            tqq_1: 0.7,
-            tqq_2: 1.2,
-            ldty_1: 193,
-            ldty_2: 195,
-            ytxs_1: 7,
-            ytxs_2: 8,
-            otm_1: '5分32秒',
-            otm_2: '5分30秒',
-            ftm_1: 9.7,
-            ftm_2: 9.6
-          },
-          {
-            dj: '不及格',
-            fzxm:'20',
-            fhl_1: 2460,
-            fhl_2: 2520,
-            tqq_1: -0.3,
-            tqq_2: 0.2,
-            ldty_1: 188,
-            ldty_2: 190,
-            ytxs_1: 6,
-            ytxs_2: 7,
-            otm_1: '5分52秒',
-            otm_2: '5分50秒',
-            ftm_1: 9.9,
-            ftm_2: 9.8
-          },
-          {
-            dj: '不及格',
-            fzxm:'10',
-            fhl_1: 2300,
-            fhl_2: 2350,
-            tqq_1: -1.3,
-            tqq_2: -0.8,
-            ldty_1: 183,
-            ldty_2: 185,
-            ytxs_1: 5,
-            ytxs_2: 6,
-            otm_1: '6分12秒',
-            otm_2: '6分10秒',
-            ftm_1: 10.1,
-            ftm_2: 10.0
-          },],
-      }
-    },
-    computed: {
-      importExcelUrl: function(){
-        return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
-      }
-    },
-    methods: {
-      getAvatarView: function (avatar) {
-        return this.url.imgerver + "/" + avatar;
-      },
-
-      batchFrozen: function (status) {
-        if (this.selectedRowKeys.length <= 0) {
-          this.$message.warning('请选择一条记录！');
-          return false;
-        } else {
-          let ids = "";
-          let that = this;
-          let isAdmin = false;
-          that.selectionRows.forEach(function (row) {
-            if (row.username == 'admin') {
-              isAdmin = true;
-            }
-          });
-          if (isAdmin) {
-            that.$message.warning('管理员账号不允许此操作,请重新选择！');
-            return;
-          }
-          that.selectedRowKeys.forEach(function (val) {
-            ids += val + ",";
-          });
-          that.$confirm({
-            title: "确认操作",
-            content: "是否" + (status == 1 ? "解冻" : "冻结") + "选中账号?",
-            onOk: function () {
-              frozenBatch({ids: ids, status: status}).then((res) => {
-                if (res.success) {
-                  that.$message.success(res.message);
-                  that.loadData();
-                  that.onClearSelected();
-                } else {
-                  that.$message.warning(res.message);
-                }
-              });
-            }
-          });
-        }
-      },
-      handleMenuClick(e) {
-        if (e.key == 1) {
-          this.batchDel();
-        } else if (e.key == 2) {
-          this.batchFrozen(2);
-        } else if (e.key == 3) {
-          this.batchFrozen(1);
-        }
-      },
-      handleFrozen: function (id, status, username) {
-        let that = this;
-        //TODO 后台校验管理员角色
-        if ('admin' == username) {
-          that.$message.warning('管理员账号不允许此操作！');
-          return;
-        }
-        frozenBatch({ids: id, status: status}).then((res) => {
-          if (res.success) {
-            that.$message.success(res.message);
-            that.loadData();
-          } else {
-            that.$message.warning(res.message);
-          }
-        });
-      },
-      handleChangePassword(username) {
-        this.$refs.passwordmodal.show(username);
-      },
-      handleAgentSettings(username){
-        this.$refs.sysUserAgentModal.agentSettings(username);
-        this.$refs.sysUserAgentModal.title = "用户代理人设置";
-      },
-      passwordModalOk() {
-        //TODO 密码修改完成 不需要刷新页面，可以把datasource中的数据更新一下
-      }
-    }
-
+import DepartModal from './modules/DepartModal'
+import pick from 'lodash.pick'
+import {queryDepartTreeList, searchByKeywords, deleteByDepartId} from '@/api/api'
+import {httpAction, deleteAction} from '@/api/manage'
+import {JeecgListMixin} from '@/mixins/JeecgListMixin'
+// 表头
+const columns = [
+  {
+    title: '机构名称',
+    dataIndex: 'departName'
+  },
+  {
+    title: '机构类型',
+    align: 'center',
+    dataIndex: 'orgType'
+  },
+  {
+    title: '机构编码',
+    dataIndex: 'orgCode',
+  },
+  {
+    title: '手机号',
+    dataIndex: 'mobile'
+  },
+  {
+    title: '传真',
+    dataIndex: 'fax'
+  },
+  {
+    title: '地址',
+    dataIndex: 'address'
+  },
+  {
+    title: '排序',
+    align: 'center',
+    dataIndex: 'departOrder'
+  },
+  {
+    title: '操作',
+    align: 'center',
+    dataIndex: 'action',
+    scopedSlots: {customRender: 'action'}
   }
+]
+export default {
+  name: 'DepartList',
+  mixins: [JeecgListMixin],
+  components: {
+    DepartModal
+  },
+  data() {
+    return {
+      iExpandedKeys: [],
+      loading: false,
+      autoExpandParent: true,
+      currFlowId: '',
+      currFlowName: '',
+      disable: true,
+      treeData: [],
+      visible: false,
+      departTree: [],
+      rightClickSelectedKey: '',
+      hiding: true,
+      model: {},
+      dropTrigger: '',
+      depart: {},
+      columns: columns,
+      disableSubmit: false,
+      checkedKeys: [],
+      selectedKeys: [],
+      autoIncr: 1,
+      currSelected: {},
+
+      allTreeKeys:[],
+      checkStrictly: true,
+
+      form: this.$form.createForm(this),
+      labelCol: {
+        xs: {span: 24},
+        sm: {span: 5}
+      },
+      wrapperCol: {
+        xs: {span: 24},
+        sm: {span: 16}
+      },
+      graphDatasource: {
+        nodes: [],
+        edges: []
+      },
+      validatorRules: {
+        departName: {rules: [{required: true, message: '请输入机构/部门名称!'}]},
+        orgCode: {rules: [{required: true, message: '请输入机构编码!'}]},
+        orgCategory: {rules: [{required: true, message: '请输入机构类型!'}]},
+        mobile: {rules: [{validator: this.validateMobile}]}
+      },
+      url: {
+        delete: '/sys/sysDepart/delete',
+        edit: '/sys/sysDepart/edit',
+        deleteBatch: '/sys/sysDepart/deleteBatch',
+        exportXlsUrl: "sys/sysDepart/exportXls",
+        importExcelUrl: "sys/sysDepart/importExcel",
+      },
+      orgCategoryDisabled:false,
+    }
+  },
+  computed: {
+    importExcelUrl: function () {
+      return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
+    }
+  },
+  methods: {
+    loadData() {
+      this.refresh();
+    },
+    loadTree() {
+      var that = this
+      that.treeData = []
+      that.departTree = []
+      queryDepartTreeList().then((res) => {
+        if (res.success) {
+          for (let i = 0; i < res.result.length; i++) {
+            let temp = res.result[i]
+            that.treeData.push(temp)
+            that.departTree.push(temp)
+            that.setThisExpandedKeys(temp)
+            that.getAllKeys(temp);
+            // console.log(temp.id)
+          }
+          this.loading = false
+        }
+      })
+    },
+    setThisExpandedKeys(node) {
+      if (node.children && node.children.length > 0) {
+        this.iExpandedKeys.push(node.key)
+        for (let a = 0; a < node.children.length; a++) {
+          this.setThisExpandedKeys(node.children[a])
+        }
+      }
+    },
+    refresh() {
+      this.loading = true
+      this.loadTree()
+    },
+    // 右键操作方法
+    rightHandle(node) {
+      this.dropTrigger = 'contextmenu'
+      console.log(node.node.eventKey)
+      this.rightClickSelectedKey = node.node.eventKey
+    },
+    onExpand(expandedKeys) {
+      console.log('onExpand', expandedKeys)
+      // if not set autoExpandParent to false, if children expanded, parent can not collapse.
+      // or, you can remove all expanded children keys.
+      this.iExpandedKeys = expandedKeys
+      this.autoExpandParent = false
+    },
+    backFlowList() {
+      this.$router.back(-1)
+    },
+    // 右键点击下拉框改变事件
+    dropStatus(visible) {
+      if (visible == false) {
+        this.dropTrigger = ''
+      }
+    },
+    // 右键店家下拉关闭下拉框
+    closeDrop() {
+      this.dropTrigger = ''
+    },
+    addRootNode() {
+      this.$refs.nodeModal.add(this.currFlowId, '')
+    },
+    batchDel: function () {
+      console.log(this.checkedKeys)
+      if (this.checkedKeys.length <= 0) {
+        this.$message.warning('请选择一条记录！')
+      } else {
+        var ids = ''
+        for (var a = 0; a < this.checkedKeys.length; a++) {
+          ids += this.checkedKeys[a] + ','
+        }
+        var that = this
+        this.$confirm({
+          title: '确认删除',
+          content: '确定要删除所选中的 ' + this.checkedKeys.length + ' 条数据，以及子节点数据吗?',
+          onOk: function () {
+            deleteAction(that.url.deleteBatch, {ids: ids}).then((res) => {
+              if (res.success) {
+                that.$message.success(res.message)
+                that.loadTree()
+                that.onClearSelected()
+              } else {
+                that.$message.warning(res.message)
+              }
+            })
+          }
+        })
+      }
+    },
+    onSearch(value) {
+      let that = this
+      if (value) {
+        searchByKeywords({keyWord: value}).then((res) => {
+          if (res.success) {
+            that.departTree = []
+            for (let i = 0; i < res.result.length; i++) {
+              let temp = res.result[i]
+              that.departTree.push(temp)
+            }
+          } else {
+            that.$message.warning(res.message)
+          }
+        })
+      } else {
+        that.loadTree()
+      }
+
+    },
+    nodeModalOk() {
+      this.loadTree()
+    },
+    nodeModalClose() {
+    },
+    hide() {
+      console.log(111)
+      this.visible = false
+    },
+    onCheck(checkedKeys, info) {
+      console.log('onCheck', checkedKeys, info)
+      this.hiding = false
+      //this.checkedKeys = checkedKeys.checked
+      // <!---- author:os_chengtgen -- date:20190827 --  for:切换父子勾选模式 =======------>
+      if(this.checkStrictly){
+        this.checkedKeys = checkedKeys.checked;
+      }else{
+        this.checkedKeys = checkedKeys
+      }
+      // <!---- author:os_chengtgen -- date:20190827 --  for:切换父子勾选模式 =======------>
+    },
+    onSelect(selectedKeys, e) {
+      console.log('selected', selectedKeys, e)
+      this.hiding = false
+      let record = e.node.dataRef
+      console.log('onSelect-record', record)
+      this.currSelected = Object.assign({}, record)
+      this.model = this.currSelected
+      this.selectedKeys = [record.key]
+      this.model.parentId = record.parentId
+      this.setValuesToForm(record)
+
+
+    },
+    // 触发onSelect事件时,为部门树右侧的form表单赋值
+    setValuesToForm(record) {
+      if(record.orgCategory == '1'){
+        this.orgCategoryDisabled = true;
+      }else{
+        this.orgCategoryDisabled = false;
+      }
+      this.form.getFieldDecorator('fax', {initialValue: ''})
+      this.form.setFieldsValue(pick(record, 'departName','orgCategory', 'orgCode', 'departOrder', 'mobile', 'fax', 'address', 'memo'))
+    },
+    getCurrSelectedTitle() {
+      return !this.currSelected.title ? '' : this.currSelected.title
+    },
+    onClearSelected() {
+      this.hiding = true
+      this.checkedKeys = []
+      this.currSelected = {}
+      this.form.resetFields()
+      this.selectedKeys = []
+    },
+    handleNodeTypeChange(val) {
+      this.currSelected.nodeType = val
+    },
+    notifyTriggerTypeChange(value) {
+      this.currSelected.notifyTriggerType = value
+    },
+    receiptTriggerTypeChange(value) {
+      this.currSelected.receiptTriggerType = value
+    },
+    submitCurrForm() {
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          if (!this.currSelected.id) {
+            this.$message.warning('请点击选择要修改部门!')
+            return
+          }
+
+          let formData = Object.assign(this.currSelected, values)
+          console.log('Received values of form: ', formData)
+          httpAction(this.url.edit, formData, 'put').then((res) => {
+            if (res.success) {
+              this.$message.success('保存成功!')
+              this.loadTree()
+            } else {
+              this.$message.error(res.message)
+            }
+          })
+        }
+      })
+    },
+    emptyCurrForm() {
+      this.form.resetFields()
+    },
+    nodeSettingFormSubmit() {
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values)
+        }
+      })
+    },
+    openSelect() {
+      this.$refs.sysDirectiveModal.show()
+    },
+    handleAdd(num) {
+      if (num == 1) {
+        this.$refs.departModal.add()
+        this.$refs.departModal.title = '新增'
+      } else if (num == 2) {
+        let key = this.currSelected.key
+        if (!key) {
+          this.$message.warning('请先选中一条记录!')
+          return false
+        }
+        this.$refs.departModal.add(this.selectedKeys)
+        this.$refs.departModal.title = '新增'
+      } else {
+        this.$refs.departModal.add(this.rightClickSelectedKey)
+        this.$refs.departModal.title = '新增'
+      }
+    },
+    handleDelete() {
+      deleteByDepartId({id: this.rightClickSelectedKey}).then((resp) => {
+        if (resp.success) {
+          this.$message.success('删除成功!')
+          this.loadTree()
+        } else {
+          this.$message.warning('删除失败!')
+        }
+      })
+    },
+    selectDirectiveOk(record) {
+      console.log('选中指令数据', record)
+      this.nodeSettingForm.setFieldsValue({directiveCode: record.directiveCode})
+      this.currSelected.sysCode = record.sysCode
+    },
+    getFlowGraphData(node) {
+      this.graphDatasource.nodes.push({
+        id: node.id,
+        text: node.flowNodeName
+      })
+      if (node.children.length > 0) {
+        for (let a = 0; a < node.children.length; a++) {
+          let temp = node.children[a]
+          this.graphDatasource.edges.push({
+            source: node.id,
+            target: temp.id
+          })
+          this.getFlowGraphData(temp)
+        }
+      }
+    },
+    // <!---- author:os_chengtgen -- date:20190827 --  for:切换父子勾选模式 =======------>
+    expandAll () {
+      this.iExpandedKeys = this.allTreeKeys
+    },
+    closeAll () {
+      this.iExpandedKeys = []
+    },
+    checkALL () {
+      this.checkStriccheckStrictlytly = false
+      this.checkedKeys = this.allTreeKeys
+    },
+    cancelCheckALL () {
+      //this.checkedKeys = this.defaultCheckedKeys
+      this.checkedKeys = []
+    },
+    switchCheckStrictly (v) {
+      if(v==1){
+        this.checkStrictly = false
+      }else if(v==2){
+        this.checkStrictly = true
+      }
+    },
+    getAllKeys(node) {
+      // console.log('node',node);
+      this.allTreeKeys.push(node.key)
+      if (node.children && node.children.length > 0) {
+        for (let a = 0; a < node.children.length; a++) {
+          this.getAllKeys(node.children[a])
+        }
+      }
+    }
+    // <!---- author:os_chengtgen -- date:20190827 --  for:切换父子勾选模式 =======------>
+
+  },
+  created() {
+    this.currFlowId = this.$route.params.id
+    this.currFlowName = this.$route.params.name
+    // this.loadTree()
+  },
+
+}
 </script>
 <style scoped>
-  @import '~@assets/less/common.less'
+.ant-card-body .table-operator {
+  margin: 15px;
+}
+
+.anty-form-btn {
+  width: 100%;
+  text-align: center;
+}
+
+.anty-form-btn button {
+  margin: 0 5px;
+}
+
+.anty-node-layout .ant-layout-header {
+  padding-right: 0
+}
+
+.header {
+  padding: 0 8px;
+}
+
+.header button {
+  margin: 0 3px
+}
+
+.ant-modal-cust-warp {
+  height: 100%
+}
+
+.ant-modal-cust-warp .ant-modal-body {
+  height: calc(100% - 110px) !important;
+  overflow-y: auto
+}
+
+.ant-modal-cust-warp .ant-modal-content {
+  height: 90% !important;
+  overflow-y: hidden
+}
+
+#app .desktop {
+  height: auto !important;
+}
+
+/** Button按钮间距 */
+.ant-btn {
+  margin-left: 3px
+}
+
+.drawer-bootom-button {
+  /*position: absolute;*/
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid #e8e8e8;
+  padding: 10px 16px;
+  text-align: left;
+  left: 0;
+  background: #fff;
+  border-radius: 0 0 2px 2px;
+}
 </style>

@@ -5,7 +5,7 @@ import router from './router'
 import store from './store/'
 
 // main.js
-require('./mock');
+// require('./mock');
 
 import { VueAxios } from "@/utils/request"
 

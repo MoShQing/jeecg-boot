@@ -9,6 +9,7 @@
           <a-col :md="5" :sm="8">
             <a-form-item label="报警类别">
               <a-select v-model="queryParam.alarmType" :allowClear="true" v-decorator="[ 'queryParam.alarmType']" placeholder="请选择报警类型">
+                <a-select-option value="">全部</a-select-option>
                 <a-select-option :value="20">烟雾</a-select-option>
                 <a-select-option :value="21">火灾</a-select-option>
                 <a-select-option :value="29">人员离岗</a-select-option>
@@ -71,19 +72,19 @@
         </template>-->
 
         <span slot="srcPicData" slot-scope="text, record">
-          <img @mouseenter="handleView(record)" width="68" height="68" :src="'data:image/png;base64,'+record.srcPicData">
+          <img @click="openPic(record)" width="68" height="68" :src="'data:image/png;base64,'+record.srcPicData">
 <!--          <img src="~@/assets/avatar2.jpg" class="logo" alt="logo">-->
         </span>
 
-<!--        <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">编辑</a>
+        <span slot="action" slot-scope="text, record">
+          <a @click="handleView(record)">详情</a>
 
-          <a-divider type="vertical" />
+          <!--<a-divider type="vertical" />
 
           <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
             <a>删除</a>
-          </a-popconfirm>
-        </span>-->
+          </a-popconfirm>-->
+        </span>
 
       </a-table>
     </div>
@@ -91,6 +92,18 @@
 
     <!-- 表单区域 -->
     <mAlarm-modal ref="modalForm" @ok="modalFormOk"></mAlarm-modal>
+
+    <a-modal
+      title="详情"
+      width="100%"
+      centered
+      :keyboard="false"
+      :footer="null"
+      :visible="visible"
+      @cancel="closePic"
+      cancelText="关闭">
+      <img width="100%" height="100%" :src="'data:image/png;base64,'+srcPicData">
+    </a-modal>
   </a-card>
 </template>
 
@@ -109,6 +122,8 @@
     },
     data () {
       return {
+        visible: false,
+        srcPicData: '',
         ipagination:{
           pageSize: 2,
         },
@@ -162,6 +177,11 @@
             align:"center",
             dataIndex: 'createTime',
             customRender: (time) => moment(time).format('YYYYMMDD')
+          },
+          {
+            title: '操作',
+            dataIndex: 'action',
+            scopedSlots: { customRender: 'action' }
           }
         ],
 		url: {
@@ -171,6 +191,7 @@
           exportXlsUrl: "alarm/mAlarm/exportXls",
           importExcelUrl: "alarm/mAlarm/importExcel",
        },
+        timer: null	// 定时器名称
     }
   },
   computed: {
@@ -178,7 +199,30 @@
       return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
     }
   },
+  mounted() {
+    this.start();
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
+    console.log("清除===")
+    this.timer =  null;
+  },
     methods: {
+      closePic() {
+        this.visible = false
+      },
+      openPic(record) {
+        this.visible = true
+        this.srcPicData = record.srcPicData
+      },
+      start() {
+        let that = this
+        // 将定时器名字赋值到变量中
+        that.timer = setInterval(() => {
+          console.log("开始---");
+          this.handleView({})
+        }, 5000);
+      },
     }
   }
 </script>

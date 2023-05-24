@@ -1,6 +1,6 @@
 <template>
   <a-locale-provider :locale="locale">
-    <div id="app">
+    <div id="app" v-cloak>
       <router-view/>
     </div>
   </a-locale-provider>
@@ -40,5 +40,8 @@
 <style>
   #app {
     height: 100%;
+  }
+  [v-cloak]{
+    display:none !important;
   }
 </style>

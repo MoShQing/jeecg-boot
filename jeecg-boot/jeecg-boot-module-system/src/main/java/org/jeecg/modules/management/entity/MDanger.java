@@ -50,7 +50,7 @@ public class MDanger implements Serializable {
 	 */
 	@Excel(name = "删除状态", width = 15,dicCode="del_flag")
 	@TableLogic
-	private String delFlag;
+	private Integer delFlag;
 	/**
 	 * 创建人
 	 */

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
+import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
 import org.jeecg.modules.shiro.authc.JwtToken;
 import org.jeecg.modules.shiro.vo.DefContants;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,8 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 		try {
+			ShiroHttpServletRequest req = (ShiroHttpServletRequest) request;
+			log.info(String.format("request path [%s]",req.getRequestURI()));
 			executeLogin(request, response);
 			return true;
 		} catch (Exception e) {

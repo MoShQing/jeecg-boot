@@ -2,14 +2,15 @@
   <div id="userLayout" :class="['user-layout-wrapper', device]">
     <div class="container">
       <div class="top">
+        <div class="header-img">
+<!--          <img src="../../../public/title.png" />-->
+          <img alt="Vue logo" style="width: 84px; height: 84px; margin-bottom: 12px;" src="../../../public/title.png">
+        </div>
         <div class="header">
-          <a href="/">
-            <img src="~@/assets/logoN.png" class="logo" alt="logo">
-            <span class="title">体测系统</span>
-          </a>
+          <span class="title">禹泓数据管理平台</span>
         </div>
         <div class="desc">
-          XXXX这里可以添加一段描述文字。
+<!--          XXXX这里可以添加一段描述文字。-->
         </div>
       </div>
 
@@ -65,7 +66,7 @@
     .container {
       width: 100%;
       min-height: 100%;
-      background: #f0f2f5 url(~@/assets/bg.png) no-repeat 50%;
+      background: #f0f2f5 url(~@/assets/logo_new.png) no-repeat 50%;
       background-size: 100%;
       padding: 110px 0 144px;
       position: relative;
@@ -99,8 +100,8 @@
           }
 
           .title {
-            font-size: 33px;
-            color: rgba(0, 0, 0, .85);
+            font-size: 60px;
+            color: rgba(255, 255, 255, .85);
             font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
             font-weight: 600;
             position: relative;

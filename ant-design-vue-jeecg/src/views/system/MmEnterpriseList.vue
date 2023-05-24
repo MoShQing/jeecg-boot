@@ -1,169 +1,257 @@
 <template>
-  <a-card :bordered="false">
-    <!-- 查询区域 -->
-    <div class="table-page-search-wrapper">
-      <a-form layout="inline" @keyup.enter.native="searchQuery">
-        <a-row :gutter="24">
-
-        </a-row>
-      </a-form>
-    </div>
-    <!-- 查询区域-END -->
-    
-    <!-- 操作按钮区域 -->
-    <div class="table-operator">
-      <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('企业信息表')">导出</a-button>
-      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
-        <a-button type="primary" icon="import">导入</a-button>
-      </a-upload>
-      <a-dropdown v-if="selectedRowKeys.length > 0">
-        <a-menu slot="overlay">
-          <a-menu-item key="1" @click="batchDel"><a-icon type="delete"/>删除</a-menu-item>
-        </a-menu>
-        <a-button style="margin-left: 8px"> 批量操作 <a-icon type="down" /></a-button>
-      </a-dropdown>
-    </div>
-
-    <!-- table区域-begin -->
-    <div>
-      <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i> 已选择 <a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项
-        <a style="margin-left: 24px" @click="onClearSelected">清空</a>
+  <div v-cloak>
+    <a-card class="card" title="企业基础信息" :bordered="false">
+      <div style="height: 32px;" >
+        <a-button v-show="editFlag" @click="handleEdit" type="primary" icon="edit">编辑</a-button>
       </div>
+      <div>
+        <a-form  @submit="handleOk" :form="form" class="form">
 
-      <a-table
-        ref="table"
-        size="middle"
-        bordered
-        rowKey="id"
-        :columns="columns"
-        :dataSource="dataSource"
-        :pagination="ipagination"
-        :loading="loading"
-        :rowSelection="{fixed:true,selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-        
-        @change="handleTableChange">
+          <a-form-item label="企业名称" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'enterpriseName', validatorRules.enterpriseName]" placeholder="请输入企业名称"></a-input>
+          </a-form-item>
+          <a-form-item label="统一社会信用代码" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'creditCode', validatorRules.creditCode]" placeholder="请输入统一社会信用代码"></a-input>
+          </a-form-item>
+          <a-form-item label="法定代表人" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'legalPerson', validatorRules.legalPerson]" placeholder="请输入法定代表人"></a-input>
+          </a-form-item>
+          <a-form-item label="单位联系方式" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'enterprisePhone', validatorRules.enterprisePhone]" placeholder="请输入单位联系方式"></a-input>
+          </a-form-item>
+          <a-form-item label="注册地址" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'address', validatorRules.address]" placeholder="请输入注册地址"></a-input>
+          </a-form-item>
+          <a-form-item label="企业编码" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'enterpriseCode', validatorRules.enterpriseCode]" placeholder="请输入企业编码"></a-input>
+          </a-form-item>
+          <a-form-item label="从业人数" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'staffCount', validatorRules.staffCount]" placeholder="请输入从业人数"></a-input>
+          </a-form-item>
+          <a-form-item label="单位负责人" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'charger', validatorRules.charger]" placeholder="请输入单位负责人"></a-input>
+          </a-form-item>
+          <a-form-item label="负责人手机号" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'chargerPhone', validatorRules.chargerPhone]" placeholder="请输入负责人手机号"></a-input>
+          </a-form-item>
+          <a-form-item label="安全负责人" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'safetyManager', validatorRules.safetyManager]" placeholder="请输入安全负责人"></a-input>
+          </a-form-item>
+          <a-form-item label="安全负责人手机号" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'safetyPhone', validatorRules.safetyPhone]" placeholder="请输入安全负责人手机号"></a-input>
+          </a-form-item>
+          <a-form-item label="单位规模" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'companySize', validatorRules.companySize]" placeholder="请输入单位规模"></a-input>
+          </a-form-item>
+          <a-form-item label="成立时间" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <j-date :disabled="editFlag" placeholder="请选择成立时间" v-decorator="[ 'establishedTime', validatorRules.establishedTime]" :trigger-change="true" style="width: 100%"/>
+          </a-form-item>
+          <a-form-item label="营业状态" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'businessStatus', validatorRules.businessStatus]" placeholder="请输入营业状态"></a-input>
+          </a-form-item>
+          <a-form-item label="安全生产标准化等级" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'level', validatorRules.level]" placeholder="请输入安全生产标准化等级"></a-input>
+          </a-form-item>
+          <a-form-item label="公司类型" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'companyType', validatorRules.companyType]" placeholder="请输入公司类型"></a-input>
+          </a-form-item>
+          <a-form-item label="行业类型" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'industryType', validatorRules.industryType]" placeholder="请输入行业类型"></a-input>
+          </a-form-item>
+          <a-form-item label="监管行业类型" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'manageType', validatorRules.manageType]" placeholder="请输入监管行业类型"></a-input>
+          </a-form-item>
+          <a-form-item label="监管副行业类型" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'manageSecondType', validatorRules.manageSecondType]" placeholder="请输入监管副行业类型"></a-input>
+          </a-form-item>
+          <a-form-item label="行政区划分" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'region', validatorRules.region]" placeholder="请输入行政区划分"></a-input>
+          </a-form-item>
+          <a-form-item label="经营范围" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input :disabled="editFlag" v-decorator="[ 'businessScope', validatorRules.businessScope]" placeholder="请输入经营范围"></a-input>
+          </a-form-item>
 
-        <template slot="htmlSlot" slot-scope="text">
-          <div v-html="text"></div>
-        </template>
-        <template slot="imgSlot" slot-scope="text">
-          <span v-if="!text" style="font-size: 12px;font-style: italic;">无此图片</span>
-          <img v-else :src="getImgView(text)" height="25px" alt="图片不存在" style="max-width:80px;font-size: 12px;font-style: italic;"/>
-        </template>
-        <template slot="fileSlot" slot-scope="text">
-          <span v-if="!text" style="font-size: 12px;font-style: italic;">无此文件</span>
-          <a-button
-            v-else
-            :ghost="true"
-            type="primary"
-            icon="download"
-            size="small"
-            @click="uploadFile(text)">
-            下载
-          </a-button>
-        </template>
+        </a-form>
+      </div>
+    </a-card>
+    <footer-tool-bar v-show="!editFlag">
+      <a-button type="primary" @click="handleOk" :loading="confirmLoading">保存</a-button>
+    </footer-tool-bar>
+  </div>
+  <!--  <a-modal
+      :title="title"
+      :width="width"
+      :visible="visible"
+      :confirmLoading="confirmLoading"
+      :closable="false"
+      :maskClosable="false"
+      :keyboard="false"
+      @ok="handleOk">
 
-        <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">编辑</a>
+      <template slot="footer">
+        <a-button @click="handleOk">保存</a-button>
+      </template>
 
-          <a-divider type="vertical" />
-          <a-dropdown>
-            <a class="ant-dropdown-link">更多 <a-icon type="down" /></a>
-            <a-menu slot="overlay">
-              <a-menu-item>
-                <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
-                  <a>删除</a>
-                </a-popconfirm>
-              </a-menu-item>
-            </a-menu>
-          </a-dropdown>
-        </span>
+      <a-spin :spinning="confirmLoading">
 
-      </a-table>
-    </div>
-
-    <mmEnterprise-modal ref="modalForm" @ok="modalFormOk"></mmEnterprise-modal>
-  </a-card>
+      </a-spin>
+    </a-modal>-->
 </template>
 
 <script>
 
-  import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import MmEnterpriseModal from './modules/MmEnterpriseModal'
+import {getAction, httpAction} from '@/api/manage'
+import pick from 'lodash.pick'
+import JDate from '@/components/jeecg/JDate'
+import FooterToolBar from '@/components/tools/FooterToolBar'
+import Vue from "vue";
+import {ACCESS_TOKEN} from "@/store/mutation-types";
 
-  export default {
-    name: "MmEnterpriseList",
-    mixins:[JeecgListMixin],
-    components: {
-      MmEnterpriseModal
-    },
-    data () {
-      return {
-        description: '企业信息表管理页面',
-        // 表头
-        columns: [
-          {
-            title: '#',
-            dataIndex: '',
-            key:'rowIndex',
-            width:60,
-            align:"center",
-            customRender:function (t,r,index) {
-              return parseInt(index)+1;
-            }
-          },
-          {
-            title:'企业名称',
-            align:"center",
-            dataIndex: 'name'
-          },
-          {
-            title:'统一社会信用代码',
-            align:"center",
-            dataIndex: 'creditCode'
-          },
-          {
-            title:'fdsa',
-            align:"center",
-            dataIndex: 'abc'
-          },
-          {
-            title:'fasd',
-            align:"center",
-            dataIndex: 'def'
-          },
-          {
-            title: '操作',
-            dataIndex: 'action',
-            align:"center",
-            scopedSlots: { customRender: 'action' }
-          }
-        ],
-        url: {
-          list: "/enterprise/mmEnterprise/list",
-          delete: "/enterprise/mmEnterprise/delete",
-          deleteBatch: "/enterprise/mmEnterprise/deleteBatch",
-          exportXlsUrl: "/enterprise/mmEnterprise/exportXls",
-          importExcelUrl: "enterprise/mmEnterprise/importExcel",
-        },
-        dictOptions:{
-        },
+export default {
+  name: "MmEnterpriseModal",
+  components: {
+    JDate,
+    FooterToolBar,
+  },
+  data () {
+    return {
+      form: this.$form.createForm(this),
+      title:"操作",
+      width:800,
+      visible: false,
+      model: {},
+      editFlag: true,
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 5 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+
+      confirmLoading: false,
+      validatorRules:{
+        enterpriseName:{rules: [{ required: true, message: '请输入企业名称!' }]},
+        creditCode:{rules: [{ required: true, message: '请输入统一社会信用代码!' }]},
+        legalPerson:{},
+        enterprisePhone:{},
+        address:{},
+        enterpriseCode:{rules: [{ required: true, message: '请输入企业编码!' }]},
+        staffCount:{},
+        charger:{rules: [{ required: true, message: '请输入单位负责人!' }]},
+        chargerPhone:{rules: [{ required: true, message: '请输入负责人手机号!' }]},
+        safetyManager:{rules: [{ required: true, message: '请输入安全负责人!' }]},
+        safetyPhone:{rules: [{ required: true, message: '请输入安全负责人手机号!' }]},
+        companySize:{},
+        establishedTime:{},
+        businessStatus:{},
+        level:{rules: [{ required: true, message: '请输入安全生产标准化等级!' }]},
+        companyType:{},
+        industryType:{},
+        manageType:{},
+        manageSecondType:{},
+        region:{rules: [{ required: true, message: '请输入行政区划分!' }]},
+        businessScope:{},
+      },
+      url: {
+        add: "/enterprise/mmEnterprise/add",
+        edit: "/enterprise/mmEnterprise/edit",
+        list: '/enterprise/mmEnterprise/list',
       }
-    },
-    computed: {
-      importExcelUrl: function(){
-        return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
-      }
-    },
-    methods: {
-      initDictConfig(){
-      }
-       
+
     }
+  },
+  created () {
+    this.get(this)
+  },
+  methods: {
+    handleEdit() {
+      this.editFlag = !this.editFlag
+    },
+    add () {
+      this.edit({});
+    },
+    get(that) {
+      if(!that.url.list){
+        that.$message.error("请设置list属性!")
+        return
+      }
+
+      var params = {};//查询条件
+
+      let v_token = Vue.ls.get(ACCESS_TOKEN);
+      params.token = v_token;
+
+      that.loading = true;
+      getAction(that.url.list, params).then((res) => {
+        if (res.success) {
+          if (res.result.total > 0) {
+            that.model = Object.assign({}, res.result.records[0]);
+          }
+        }
+        if(res.code===510){
+          that.$message.warning(res.message)
+        }
+        that.loading = false;
+        that.$nextTick(() => {
+          that.form.setFieldsValue(pick(that.model,'enterpriseName','creditCode','legalPerson','enterprisePhone','address','enterpriseCode','staffCount','charger','chargerPhone','safetyManager','safetyPhone','companySize','establishedTime','businessStatus','level','companyType','industryType','manageType','manageSecondType','region','businessScope'))
+        })
+      })
+    },
+    edit (record) {
+      this.form.resetFields();
+      this.model = Object.assign({}, record);
+      this.visible = true;
+      this.$nextTick(() => {
+        this.form.setFieldsValue(pick(this.model,'enterpriseName','creditCode','legalPerson','enterprisePhone','address','enterpriseCode','staffCount','charger','chargerPhone','safetyManager','safetyPhone','companySize','establishedTime','businessStatus','level','companyType','industryType','manageType','manageSecondType','region','businessScope'))
+      })
+    },
+    close () {
+      this.$emit('close');
+      this.visible = false;
+    },
+    handleOk () {
+      const that = this;
+      // 触发表单验证
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          that.confirmLoading = true;
+          let httpurl = '';
+          let method = '';
+          if(!this.model.id){
+            httpurl+=this.url.add;
+            method = 'post';
+          }else{
+            httpurl+=this.url.edit;
+            method = 'put';
+          }
+          let formData = Object.assign(this.model, values);
+          console.log("表单提交数据",formData)
+          httpAction(httpurl,formData,method).then((res)=>{
+            if(res.success){
+              that.$message.success(res.message);
+              that.$emit('ok');
+              this.editFlag = !this.editFlag
+            }else{
+              that.$message.warning(res.message);
+            }
+          }).finally(() => {
+            that.confirmLoading = false;
+            that.close();
+          })
+        }
+
+      })
+    },
+    handleCancel () {
+      this.close()
+    },
+    popupCallback(row){
+      this.form.setFieldsValue(pick(row,'enterpriseName','creditCode','legalPerson','enterprisePhone','address','enterpriseCode','staffCount','charger','chargerPhone','safetyManager','safetyPhone','companySize','establishedTime','businessStatus','level','companyType','industryType','manageType','manageSecondType','region','businessScope'))
+    },
+
+
   }
+}
 </script>
-<style scoped>
-  @import '~@assets/less/common.less'
-</style>

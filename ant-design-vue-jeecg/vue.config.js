@@ -63,9 +63,12 @@ module.exports = {
         }
       },*/
       '/tice': {
-        target: 'http://localhost:8080', //请求api
+        target: 'http://localhost:8080/api', //请求api
         ws: false,
-        changeOrigin: true
+        changeOrigin: true,
+        pathRewrite: {
+          '/tice': ''  //默认所有请求都加了tice前缀，需要去掉
+        }
       },
     }
   },

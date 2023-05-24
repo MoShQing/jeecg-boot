@@ -1,16 +1,49 @@
 <template>
   <a-modal
     :title="title"
-    width="100%"
-    centered
-    :keyboard="false"
-    :footer="null"
+    :width="800"
     :visible="visible"
     :confirmLoading="confirmLoading"
     @ok="handleOk"
     @cancel="handleCancel"
     cancelText="关闭">
-    <img :src="'data:image/png;base64,'+model.srcPicData">
+
+    <a-spin :spinning="confirmLoading">
+      <a-form :form="form">
+
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="报警类别">
+          {{getTypeText(model.alarmType)}}
+        </a-form-item>
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="摄像头ID">
+          {{model.cameraId}}
+        </a-form-item>
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="摄像头名称">
+          {{model.cameraName}}
+        </a-form-item>
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="报警时间">
+          {{model.createTime}}
+        </a-form-item>
+        <a-form-item
+          :labelCol="labelCol"
+          :wrapperCol="wrapperCol"
+          label="报警图片">
+          <img v-show="model.srcPicData" width="100%" height="100%" :src="'data:image/png;base64,'+model.srcPicData">
+        </a-form-item>
+
+      </a-form>
+    </a-spin>
   </a-modal>
 </template>
 
@@ -52,6 +85,16 @@
     created () {
     },
     methods: {
+      getTypeText(alarmType) {
+        if (alarmType == "20") {
+          return "烟雾"
+        }else if (alarmType == "21") {
+          return "火灾"
+        } else if (alarmType == "29") {
+          return "人员离岗"
+        }
+        return ""
+      },
       add () {
         this.edit({});
       },
