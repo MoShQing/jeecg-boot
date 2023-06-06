@@ -9,11 +9,14 @@ import java.util.stream.Collectors;
 
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.jeecg.common.api.vo.Result;
+import org.jeecg.common.aspect.annotation.PermissionData;
 import org.jeecg.common.constant.CacheConstant;
 import org.jeecg.common.constant.CommonConstant;
+import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.common.system.util.JwtUtil;
 import org.jeecg.common.util.MD5Util;
 import org.jeecg.common.util.oConvertUtils;
+import org.jeecg.modules.demo.test.entity.JeecgDemo;
 import org.jeecg.modules.system.entity.SysPermission;
 import org.jeecg.modules.system.entity.SysPermissionDataRule;
 import org.jeecg.modules.system.entity.SysRolePermission;
@@ -67,14 +70,20 @@ public class SysPermissionController {
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@PermissionData(pageComponent = "system/PermissionList")
 	public Result<List<SysPermissionTree>> list() {
         long start = System.currentTimeMillis();
 		Result<List<SysPermissionTree>> result = new Result<>();
 		try {
-			LambdaQueryWrapper<SysPermission> query = new LambdaQueryWrapper<SysPermission>();
+			/*LambdaQueryWrapper<SysPermission> query = new LambdaQueryWrapper<SysPermission>();
 			query.eq(SysPermission::getDelFlag, CommonConstant.DEL_FLAG_0);
-			query.orderByAsc(SysPermission::getSortNo);
-			List<SysPermission> list = sysPermissionService.list(query);
+			query.orderByAsc(SysPermission::getSortNo);*/
+
+			QueryWrapper<SysPermission> queryWrapper = new QueryWrapper<SysPermission>();
+			queryWrapper.eq("del_flag", CommonConstant.DEL_FLAG_0);
+			queryWrapper.orderByAsc("sort_no");
+			QueryGenerator.installAuthMplus(queryWrapper, SysPermission.class);
+			List<SysPermission> list = sysPermissionService.list(queryWrapper);
 			List<SysPermissionTree> treeList = new ArrayList<>();
 			getTreeList(treeList, list, null);
 			result.setResult(treeList);

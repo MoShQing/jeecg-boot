@@ -15,6 +15,7 @@ import org.jeecg.modules.alarm.entity.Alarm;
 import org.jeecg.modules.alarm.entity.MAlarm;
 import org.jeecg.modules.alarm.entity.alarm.AlarmBean;
 import org.jeecg.modules.alarm.service.IMAlarmService;
+import org.jeecg.modules.chemical.entity.MChemical;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -57,5 +58,19 @@ public class AlarmController extends JeecgController<MAlarm, IMAlarmService> {
        mAlarmService.save(mAlarm);
        return Result.ok("添加成功！");
    }
+
+    /**
+     * 编辑
+     *
+     * @param mAlarm
+     * @return
+     */
+    @AutoLog(value = "报警数据-编辑")
+    @ApiOperation(value="报警数据-编辑", notes="报警数据-编辑")
+    @PutMapping(value = "/edit")
+    public Result<?> edit(@RequestBody MAlarm mAlarm) {
+        mAlarmService.updateById(mAlarm);
+        return Result.ok("编辑成功!");
+    }
 
 }

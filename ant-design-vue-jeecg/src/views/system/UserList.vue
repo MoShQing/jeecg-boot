@@ -23,39 +23,9 @@
             </a-form-item>
           </a-col>
 
-
-          <template v-if="toggleSearchStatus">
-            <a-col :md="6" :sm="8">
-              <a-form-item label="邮箱">
-                <a-input placeholder="请输入邮箱查询" v-model="queryParam.email"></a-input>
-              </a-form-item>
-            </a-col>
-
-            <a-col :md="6" :sm="8">
-              <a-form-item label="手机号码">
-                <a-input placeholder="请输入手机号码查询" v-model="queryParam.phone"></a-input>
-              </a-form-item>
-            </a-col>
-
-            <a-col :md="6" :sm="8">
-              <a-form-item label="状态">
-                <a-select v-model="queryParam.status" placeholder="请选择用户状态查询">
-                  <a-select-option value="">请选择用户状态</a-select-option>
-                  <a-select-option value="1">正常</a-select-option>
-                  <a-select-option value="2">解冻</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
-          </template>
-
           <a-col :md="6" :sm="8">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
-              <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
-              <a @click="handleToggleSearch" style="margin-left: 8px">
-                {{ toggleSearchStatus ? '收起' : '展开' }}
-                <a-icon :type="toggleSearchStatus ? 'up' : 'down'"/>
-              </a>
             </span>
           </a-col>
 
@@ -66,39 +36,10 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator" style="border-top: 5px">
       <a-button @click="handleAdd" type="primary" icon="plus" v-has="'user:add'">添加用户</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('用户信息')">导出</a-button>
-      <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
-        <a-button type="primary" icon="import">导入</a-button>
-      </a-upload>
-      <a-dropdown v-if="selectedRowKeys.length > 0">
-        <a-menu slot="overlay" @click="handleMenuClick">
-          <a-menu-item key="1">
-            <a-icon type="delete" @click="batchDel"/>
-            删除
-          </a-menu-item>
-          <a-menu-item key="2">
-            <a-icon type="lock" @click="batchFrozen('2')"/>
-            冻结
-          </a-menu-item>
-          <a-menu-item key="3">
-            <a-icon type="unlock" @click="batchFrozen('1')"/>
-            解冻
-          </a-menu-item>
-        </a-menu>
-        <a-button style="margin-left: 8px">
-          批量操作
-          <a-icon type="down"/>
-        </a-button>
-      </a-dropdown>
     </div>
 
     <!-- table区域-begin -->
     <div>
-      <div class="ant-alert ant-alert-info" style="margin-bottom: 16px;">
-        <i class="anticon anticon-info-circle ant-alert-icon"></i>已选择&nbsp;<a style="font-weight: 600">{{ selectedRowKeys.length }}</a>项&nbsp;&nbsp;
-        <a style="margin-left: 24px" @click="onClearSelected">清空</a>
-      </div>
-
       <a-table
         ref="table"
         bordered
@@ -108,7 +49,6 @@
         :dataSource="dataSource"
         :pagination="ipagination"
         :loading="loading"
-        :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
         @change="handleTableChange">
 
         <template slot="avatarslot" slot-scope="text, record, index">
@@ -140,23 +80,6 @@
                   <a>删除</a>
                 </a-popconfirm>
               </a-menu-item>
-
-              <a-menu-item v-if="record.status==1">
-                <a-popconfirm title="确定冻结吗?" @confirm="() => handleFrozen(record.id,2,record.username)">
-                  <a>冻结</a>
-                </a-popconfirm>
-              </a-menu-item>
-
-              <a-menu-item v-if="record.status==2">
-                <a-popconfirm title="确定解冻吗?" @confirm="() => handleFrozen(record.id,1,record.username)">
-                  <a>解冻</a>
-                </a-popconfirm>
-              </a-menu-item>
-
-              <a-menu-item>
-                <a href="javascript:;" @click="handleAgentSettings(record.username)">代理人</a>
-              </a-menu-item>
-
             </a-menu>
           </a-dropdown>
         </span>
@@ -197,8 +120,8 @@ export default {
       description: '这是用户管理页面',
       queryParam: {},
       columns: [
-        /*{
-          title: '#',
+        {
+          title: '序号',
           dataIndex: '',
           key:'rowIndex',
           width:60,
@@ -206,7 +129,7 @@ export default {
           customRender:function (t,r,index) {
             return parseInt(index)+1;
           }
-        },*/
+        },
         {
           title: '用户账号',
           align: "center",
@@ -220,6 +143,12 @@ export default {
           dataIndex: 'realname',
         },
         {
+          title: '生日',
+          align: "center",
+          width: 180,
+          dataIndex: 'birthday'
+        },
+        /* {
           title: '头像',
           align: "center",
           width: 120,
@@ -256,14 +185,14 @@ export default {
           align: "center",
           width: 80,
           dataIndex: 'status_dictText'
-        },
-        /* {
+        },*/
+        {
            title: '创建时间',
            align: "center",
            width: 150,
            dataIndex: 'createTime',
            sorter: true
-         },*/
+         },
         {
           title: '操作',
           dataIndex: 'action',

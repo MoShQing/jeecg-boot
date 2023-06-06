@@ -17,9 +17,7 @@
         :type="collapsed ? 'menu-unfold' : 'menu-fold'"
         @click.native="toggle"/>
 
-      <!--<span v-if="device === 'desktop'">欢迎进入 Jeecg-Boot 企业级快速开发平台</span>
-      <span v-else>Jeecg-Boot</span>-->
-
+      <span style="font-size: 34px;" v-if="device === 'desktop'">禹泓数据管理平台</span>
       <user-menu :theme="theme"/>
     </div>
     <!-- 顶部导航栏模式 -->

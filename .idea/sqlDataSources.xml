@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SqlDataSourceStorage">
+    <option name="dataSources">
+      <list>
+        <State>
+          <option name="id" value="c3cdfe1d-b91b-42ed-9905-9c32ecfd9082" />
+          <option name="name" value="@localhost (DDL)" />
+          <option name="languageId" value="MySQL" />
+          <option name="parent" value="17c6461e-4443-46a1-81f9-2f6c373ed5bc" />
+          <option name="urls">
+            <array>
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/m_alarm.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/m_chemical.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/m_danger.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/m_dangers_source.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/m_risk_management.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/mm_enterprise.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/mm_risk_level.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_announcement.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_announcement_send.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_category.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_data_log.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_depart.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_dict.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_dict_item.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_fill_rule.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_log.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_permission.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_permission_data_rule.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_position.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_quartz_job.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_role.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_role_permission.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_sms.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_sms_template.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_user.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_user_agent.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_user_depart.sql" />
+              <option value="file://$PROJECT_DIR$/jeecg-module-system/jeecg-system-api/sql/jeecg-boot/sys_user_role.sql" />
+            </array>
+          </option>
+          <option name="outPath" value="C:\dev\project\jeecg-boot\jeecg-module-system\jeecg-system-api\sql" />
+          <option name="scopes">
+            <map>
+              <entry key="$PROJECT_DIR$/ant-design-vue-jeecg/src/views/system" value="jeecg-boot" />
+            </map>
+          </option>
+        </State>
+      </list>
+    </option>
+  </component>
+</project>

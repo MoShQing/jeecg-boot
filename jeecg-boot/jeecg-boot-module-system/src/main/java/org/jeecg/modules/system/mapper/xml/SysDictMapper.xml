@@ -50,7 +50,7 @@
 	
 	<!-- 重复校验 sql语句 -->
 	<select id="duplicateCheckCountSqlNoDataId" resultType="Long" parameterType="org.jeecg.modules.system.model.DuplicateCheckVo">
-		SELECT COUNT(*) FROM ${tableName} WHERE ${fieldName} = #{fieldVal}
+		SELECT COUNT(*) FROM ${tableName} WHERE ${fieldName} = #{fieldVal} and del_flag=0
 	</select>
 		
 	<!-- 查询部门信息 作为字典数据 -->

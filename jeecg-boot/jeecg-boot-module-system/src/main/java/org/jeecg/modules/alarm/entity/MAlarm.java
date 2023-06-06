@@ -70,4 +70,7 @@ public class MAlarm {
 	private java.lang.Integer delFlag;
 	@JsonIgnore
 	private String json;
+
+	@ApiModelProperty(value = "status")
+	private java.lang.Integer status;
 }

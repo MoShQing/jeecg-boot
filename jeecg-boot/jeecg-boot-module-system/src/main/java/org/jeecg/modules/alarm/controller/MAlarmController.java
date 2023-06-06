@@ -51,6 +51,7 @@ public class MAlarmController extends JeecgController<MAlarm, IMAlarmService> {
 								   @RequestParam(name="pageSize", defaultValue="10") Integer pageSize,
 								   HttpServletRequest req) {
 		QueryWrapper<MAlarm> queryWrapper = QueryGenerator.initQueryWrapper(mAlarm, req.getParameterMap());
+		queryWrapper.orderByAsc("status").orderByDesc("create_time");
 		Page<MAlarm> page = new Page<MAlarm>(pageNo, pageSize);
 		IPage<MAlarm> pageList = mAlarmService.page(page, queryWrapper);
 		return Result.ok(pageList);

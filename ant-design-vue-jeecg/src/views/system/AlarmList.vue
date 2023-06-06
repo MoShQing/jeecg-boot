@@ -184,6 +184,8 @@
             scopedSlots: { customRender: 'action' }
           }
         ],
+
+        confirmData: {},
 		url: {
           list: "/alarm/mAlarm/list",
           delete: "/alarm/mAlarm/delete",
@@ -199,7 +201,7 @@
       return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
     }
   },
-  mounted() {
+  created() {
     this.start();
   },
   beforeDestroy() {
@@ -208,7 +210,7 @@
     this.timer =  null;
   },
     methods: {
-      closePic() {
+      closePic(record) {
         this.visible = false
       },
       openPic(record) {
@@ -219,10 +221,22 @@
         let that = this
         // 将定时器名字赋值到变量中
         that.timer = setInterval(() => {
-          console.log("开始---");
-          this.handleView({})
-        }, 5000);
+          this.getConfirmData()
+          if (!that.visible && that.confirmData && that.confirmData.id != null) {
+            that.handleView(this.confirmData)
+          }
+        }, 10000);
       },
+
+      getConfirmData() {
+        this.searchQuery()
+        if (this.dataSource && this.dataSource.length>0) {
+          let temp = this.dataSource.find((r)=>{return r.status==0})
+          this.confirmData = temp == undefined ? {} : temp
+        } else {
+          this.confirmData = {}
+        }
+      }
     }
   }
 </script>

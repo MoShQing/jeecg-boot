@@ -7,7 +7,8 @@
       <img v-else src="~@/assets/avatar2.jpg" alt="logo">-->
       <!-- update-begin- author:sunjianlei --- date:20190814 --- for: logo颜色根据主题颜色变化 -->
 
-      <h1 v-if="showTitle">{{ title }}</h1>
+      <img v-if="showTitle" src="../../../public/title.png" alt="logo">
+<!--      <h1 v-if="showTitle">{{ title }}</h1>-->
     </router-link>
   </div>
 </template>
@@ -19,11 +20,11 @@
     name: 'Logo',
     mixins: [mixin],
     props: {
-      title: {
+      /*title: {
         type: String,
         default: '禹泓数据管理平台',
         required: false
-      },
+      },*/
       showTitle: {
         type: Boolean,
         default: true,

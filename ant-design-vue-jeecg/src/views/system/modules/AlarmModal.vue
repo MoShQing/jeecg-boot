@@ -6,7 +6,7 @@
     :confirmLoading="confirmLoading"
     @ok="handleOk"
     @cancel="handleCancel"
-    cancelText="关闭">
+    :footer="null">
 
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
@@ -109,8 +109,9 @@
 
       },
       close () {
-        this.$emit('close');
-        this.visible = false;
+        const that = this;
+        that.$emit('close');
+        that.visible = false;
       },
       handleOk () {
         const that = this;
@@ -149,6 +150,18 @@
         })
       },
       handleCancel () {
+        const that = this;
+        that.visible = false;
+        let formData = that.model
+        formData.status = 1
+        httpAction(that.url.edit,formData,'put').then((res)=>{
+          if(res.success){
+            that.$message.success(res.message);
+          }else{
+            that.$message.warning(res.message);
+          }
+        })
+
         this.close()
       },
 

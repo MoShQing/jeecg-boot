@@ -44,9 +44,9 @@
           <a-input placeholder="请输入工号" v-decorator="[ 'workNo', validatorRules.workNo]" />
         </a-form-item>
 
-        <a-form-item label="职务" :labelCol="labelCol" :wrapperCol="wrapperCol">
+<!--        <a-form-item label="职务" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <j-select-position placeholder="请选择职务" :multiple="false" v-decorator="['post', {}]"/>
-        </a-form-item>
+        </a-form-item>-->
 
         <a-form-item label="角色分配" :labelCol="labelCol" :wrapperCol="wrapperCol" v-show="!roleDisabled" >
           <a-select
@@ -54,6 +54,7 @@
             style="width: 100%"
             placeholder="请选择用户角色"
             optionFilterProp = "children"
+            v-decorator="['roleName', validatorRules.roleName]"
             v-model="selectedRole">
             <a-select-option v-for="(role,roleindex) in roleList" :key="roleindex.toString()" :value="role.id">
               {{ role.roleName }}
@@ -62,7 +63,7 @@
         </a-form-item>
 
         <!--部门分配-->
-        <a-form-item label="部门分配" :labelCol="labelCol" :wrapperCol="wrapperCol" v-show="!departDisabled">
+<!--        <a-form-item label="部门分配" :labelCol="labelCol" :wrapperCol="wrapperCol" v-show="!departDisabled">
           <a-input-search
             placeholder="点击右侧按钮选择部门"
             v-model="checkedDepartNameString"
@@ -118,7 +119,7 @@
 
         <a-form-item label="工作流引擎" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <j-dict-select-tag  v-decorator="['activitiSync', {}]" placeholder="请选择是否同步工作流引擎" :type="'radio'" :triggerChange="true" dictCode="activiti_sync"/>
-        </a-form-item>
+        </a-form-item>-->
 
       </a-form>
     </a-spin>
@@ -178,9 +179,10 @@
           },
           password:{
             rules: [{
-              required: true,
+              /*required: true,
               pattern:/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,./]).{8,}$/,
-              message: '密码由8位数字、大小写字母和特殊符号组成!'
+              message: '密码由8位数字、大小写字母和特殊符号组成!'*/
+              required: true, message: '请输入用户密码!'
             }, {
               validator: this.validateToNextPassword,
             }],
@@ -192,6 +194,7 @@
               validator: this.compareToFirstPassword,
             }],
           },
+          roleName: { rules: [{ required: true, message: '请选择角色' }] },
           realname:{rules: [{ required: true, message: '请输入用户名称!' }]},
           phone:{rules: [{validator: this.validatePhone}]},
           email:{
@@ -205,6 +208,11 @@
             rules: [
               { required: true, message: '请输入工号' },
               { validator: this.validateWorkNo }
+            ]
+          },
+          roleName1: {
+            rules: [
+              { required: true, message: '请选择用户角色!' },
             ]
           },
           telephone: {
@@ -307,7 +315,7 @@
         that.visible = true;
         that.model = Object.assign({}, record);
         that.$nextTick(() => {
-          that.form.setFieldsValue(pick(this.model,'username','sex','realname','email','phone','activitiSync','workNo','telephone','post'))
+          that.form.setFieldsValue(pick(this.model,'username','realname','workNo'))
         });
         // 调用查询用户对应的部门信息的方法
         that.checkedDepartKeys = [];

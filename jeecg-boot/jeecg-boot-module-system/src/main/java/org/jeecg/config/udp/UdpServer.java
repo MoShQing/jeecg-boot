@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jeecg.config.UdpConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.integration.annotation.Filter;
 import org.springframework.integration.annotation.Router;
 import org.springframework.integration.annotation.ServiceActivator;
@@ -11,6 +12,7 @@ import org.springframework.integration.annotation.Transformer;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.ip.dsl.Udp;
+import org.springframework.integration.ip.udp.UnicastSendingMessageHandler;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
 
@@ -46,13 +48,20 @@ public class UdpServer {
         return IntegrationFlows.from(Udp.inboundAdapter(UdpConfig.getListeningPort())).channel("udpChannel").get();
     }
 
+    @Bean
+//    @ServiceActivator(inputChannel = "udpOut")
+    public UnicastSendingMessageHandler unicastSendingMessageHandler() {
+        UnicastSendingMessageHandler unicastSendingMessageHandler = new UnicastSendingMessageHandler("127.0.0.1", UdpConfig.getSendingPort());
+        return unicastSendingMessageHandler;
+    }
+
     /**
      * 转换器
      */
     @Transformer(inputChannel = "udpChannel", outputChannel = "udpFilter")
     public String transformer(@Payload byte[] payload, @Headers Map<String, Object> headers) {
         String message = new String(payload);
-        log.info("===transformer message:{}", message);
+        log.info("===transformer message:{}", payload);
         // todo 进行数据转换
         message = message.toUpperCase();
         return message;
@@ -89,7 +98,7 @@ public class UdpServer {
         String ip = headers.get("ip_address").toString();
         // 获取来源Port
         String port = headers.get("ip_port").toString();
-        log.info("===filter id:{} ip:{} port:{}", id, ip, port);
+        log.info("===udpRouter id:{} ip:{} port:{}", id, ip, port);
         // todo 筛选，走那个处理器
         if (true) {
             return "udpHandle2";

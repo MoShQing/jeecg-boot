@@ -2,74 +2,74 @@
   <a-card :bordered="false">
 
     <!-- 查询区域 -->
-    <!--    <div class="table-page-search-wrapper">
-          <a-form layout="inline" @keyup.enter.native="searchQuery">
-            <a-row :gutter="24">
+    <div class="table-page-search-wrapper">
+      <a-form layout="inline" @keyup.enter.native="searchQuery">
+        <a-row :gutter="24">
 
-              <a-col :md="6" :sm="12">
-                <a-form-item label="账号">
-                  &lt;!&ndash;<a-input placeholder="请输入账号查询" v-model="queryParam.username"></a-input>&ndash;&gt;
-                  <j-input placeholder="输入账号模糊查询" v-model="queryParam.username"></j-input>
-                </a-form-item>
-              </a-col>
+          <a-col :md="6" :sm="12">
+            <a-form-item label="查询条件">
+              <a-input placeholder="请输入查询条件" v-model="queryParam.username"></a-input>
+            </a-form-item>
+          </a-col>
 
-              <a-col :md="6" :sm="8">
-                <a-form-item label="性别">
-                  <a-select v-model="queryParam.sex" placeholder="请选择性别查询">
-                    <a-select-option value="">请选择性别查询</a-select-option>
-                    <a-select-option value="1">男性</a-select-option>
-                    <a-select-option value="2">女性</a-select-option>
-                  </a-select>
-                </a-form-item>
-              </a-col>
+          <!--<a-col :md="6" :sm="8">
+            <a-form-item label="性别">
+              <a-select v-model="queryParam.sex" placeholder="请选择性别查询">
+                <a-select-option value="">请选择性别查询</a-select-option>
+                <a-select-option value="1">男性</a-select-option>
+                <a-select-option value="2">女性</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
 
 
-              <template v-if="toggleSearchStatus">
-                <a-col :md="6" :sm="8">
-                  <a-form-item label="邮箱">
-                    <a-input placeholder="请输入邮箱查询" v-model="queryParam.email"></a-input>
-                  </a-form-item>
-                </a-col>
+          <template v-if="toggleSearchStatus">
+            <a-col :md="6" :sm="8">
+              <a-form-item label="邮箱">
+                <a-input placeholder="请输入邮箱查询" v-model="queryParam.email"></a-input>
+              </a-form-item>
+            </a-col>
 
-                <a-col :md="6" :sm="8">
-                  <a-form-item label="手机号码">
-                    <a-input placeholder="请输入手机号码查询" v-model="queryParam.phone"></a-input>
-                  </a-form-item>
-                </a-col>
+            <a-col :md="6" :sm="8">
+              <a-form-item label="手机号码">
+                <a-input placeholder="请输入手机号码查询" v-model="queryParam.phone"></a-input>
+              </a-form-item>
+            </a-col>
 
-                <a-col :md="6" :sm="8">
-                  <a-form-item label="状态">
-                    <a-select v-model="queryParam.status" placeholder="请选择用户状态查询">
-                      <a-select-option value="">请选择用户状态</a-select-option>
-                      <a-select-option value="1">正常</a-select-option>
-                      <a-select-option value="2">解冻</a-select-option>
-                    </a-select>
-                  </a-form-item>
-                </a-col>
-              </template>
+            <a-col :md="6" :sm="8">
+              <a-form-item label="状态">
+                <a-select v-model="queryParam.status" placeholder="请选择用户状态查询">
+                  <a-select-option value="">请选择用户状态</a-select-option>
+                  <a-select-option value="1">正常</a-select-option>
+                  <a-select-option value="2">解冻</a-select-option>
+                </a-select>
 
-              <a-col :md="6" :sm="8">
-                <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
-                  <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
-                  <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
-                  <a @click="handleToggleSearch" style="margin-left: 8px">
-                    {{ toggleSearchStatus ? '收起' : '展开' }}
-                    <a-icon :type="toggleSearchStatus ? 'up' : 'down'"/>
-                  </a>
-                </span>
-              </a-col>
+              </a-form-item>
+            </a-col>
+          </template>-->
 
-            </a-row>
-          </a-form>
-        </div>-->
+          <a-col :md="6" :sm="8">
+            <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
+              <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
+<!--              <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
+              <a @click="handleToggleSearch" style="margin-left: 8px">
+                {{ toggleSearchStatus ? '收起' : '展开' }}
+                <a-icon :type="toggleSearchStatus ? 'up' : 'down'"/>
+              </a>-->
+            </span>
+          </a-col>
+
+        </a-row>
+      </a-form>
+    </div>
 
     <!-- 操作按钮区域 -->
-    <div class="table-operator" style="border-top: 5px">
+    <!--<div class="table-operator" style="border-top: 5px">
       <a-button @click="handleAdd" type="primary" icon="plus" v-has="'user:add'">新增工艺</a-button>
-      <!--      <a-button type="primary" icon="download" @click="handleExportXls('用户信息')">导出</a-button>
+            <a-button type="primary" icon="download" @click="handleExportXls('用户信息')">导出</a-button>
             <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
               <a-button type="primary" icon="import">导入</a-button>
-            </a-upload>-->
+            </a-upload>
       <a-dropdown v-if="selectedRowKeys.length > 0">
         <a-menu slot="overlay" @click="handleMenuClick">
           <a-menu-item key="1">
@@ -90,7 +90,7 @@
           <a-icon type="down"/>
         </a-button>
       </a-dropdown>
-    </div>
+    </div>-->
 
     <!-- table区域-begin -->
     <!--    <div>
@@ -117,56 +117,17 @@
     </template>
 
     <span slot="action" slot-scope="text, record">
-          <a @click="handleEdit(record)">编辑</a>
+          <a @click="send(record)">发送</a>
 
-          <a-divider type="vertical"/>
+<!--          <a-divider type="vertical"/>
 
           <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
                   <a>删除</a>
-          </a-popconfirm>
-
-      <!--          <a-dropdown>
-                  <a class="ant-dropdown-link">
-                    更多 <a-icon type="down"/>
-                  </a>
-                  <a-menu slot="overlay">
-                    <a-menu-item>
-                      <a href="javascript:;" @click="handleDetail(record)">详情</a>
-                    </a-menu-item>
-
-                    <a-menu-item>
-                      <a href="javascript:;" @click="handleChangePassword(record.username)">密码</a>
-                    </a-menu-item>
-
-                    <a-menu-item>
-                      <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
-                        <a>删除</a>
-                      </a-popconfirm>
-                    </a-menu-item>
-
-                    <a-menu-item v-if="record.status==1">
-                      <a-popconfirm title="确定冻结吗?" @confirm="() => handleFrozen(record.id,2,record.username)">
-                        <a>冻结</a>
-                      </a-popconfirm>
-                    </a-menu-item>
-
-                    <a-menu-item v-if="record.status==2">
-                      <a-popconfirm title="确定解冻吗?" @confirm="() => handleFrozen(record.id,1,record.username)">
-                        <a>解冻</a>
-                      </a-popconfirm>
-                    </a-menu-item>
-
-                    <a-menu-item>
-                      <a href="javascript:;" @click="handleAgentSettings(record.username)">代理人</a>
-                    </a-menu-item>
-
-                  </a-menu>
-                </a-dropdown>-->
+          </a-popconfirm>-->
         </span>
 
 
     </a-table>
-    </div>
     <!-- table区域-end -->
 
     <user-modal ref="modalForm" @ok="modalFormOk"></user-modal>
@@ -174,13 +135,40 @@
     <password-modal ref="passwordmodal" @ok="passwordModalOk"></password-modal>
 
     <sys-user-agent-modal ref="sysUserAgentModal"></sys-user-agent-modal>
+
+    <a-modal
+      title="详情"
+      width="40%"
+      centered
+      :keyboard="false"
+      :visible="visible"
+      @cancel="closeModal"
+      @ok="sendMess"
+      cancelText="取消"
+      okText="发送">
+        <a-form :form="form">
+
+          <a-form-item label="ip" :labelCol="labelCol" :wrapperCol="wrapperCol">
+            <a-input v-model="form.ip"/>
+          </a-form-item>
+
+          <a-form-item label="port" :labelCol="labelCol" :wrapperCol="wrapperCol" >
+            <a-input v-model="form.port"/>
+          </a-form-item>
+
+          <a-form-item label="mess" :labelCol="labelCol" :wrapperCol="wrapperCol" >
+            <a-input v-model="form.mess"/>
+          </a-form-item>
+
+        </a-form>
+    </a-modal>
   </a-card>
 </template>
 
 <script>
 import UserModal from './modules/UserModal'
 import PasswordModal from './modules/PasswordModal'
-import {putAction} from '@/api/manage';
+import {sendMess} from '@/api/api';
 import {frozenBatch} from '@/api/api'
 import {JeecgListMixin} from '@/mixins/JeecgListMixin'
 import SysUserAgentModal from "./modules/SysUserAgentModal";
@@ -197,6 +185,21 @@ export default {
   },
   data() {
     return {
+      visible: false,
+      labelCol: {
+        xs: { span: 24 },
+        sm: { span: 5 },
+      },
+      wrapperCol: {
+        xs: { span: 24 },
+        sm: { span: 16 },
+      },
+      form:{
+        ip:'58.240.210.114',
+        port:'10123',
+        mess:'',
+      },
+
       description: '这是用户管理页面',
       queryParam: {},
       columns: [
@@ -217,85 +220,12 @@ export default {
           width: 120
         },
         {
-          title: '设备型号',
-          align: "center",
-          width: 100,
-          dataIndex: 'realname',
-        }
-        ,
-        {
-          title: '设备类型',
-          align: "center",
-          width: 120,
-          dataIndex: 'avatar',
-          scopedSlots: {customRender: "avatarslot"}
-        },
-
-        {
-          title: '设备地址',
-          align: "center",
-          width: 80,
-          dataIndex: 'sex_dictText',
-          sorter: true
-        },
-        {
-          title: '气体类型',
-          align: "center",
-          width: 180,
-          dataIndex: 'birthday'
-        },
-        {
-          title: '单位',
-          align: "center",
-          width: 100,
-          dataIndex: 'phone'
-        },
-        {
-          title: '数值',
-          align: "center",
-          dataIndex: 'email'
-        },
-        {
-          title: '上限阈值',
-          align: "center",
-          width: 80,
-          dataIndex: 'status_dictText'
-        },
-        {
-          title: '下限阈值',
-          align: "center",
-          width: 150,
-          dataIndex: 'createTime',
-          sorter: true
-        },
-        {
-          title: '状态',
-          align: "center",
-          width: 150,
-          dataIndex: 'createTime',
-          sorter: true
-        },
-        {
           title: '创建时间',
           align: "center",
           width: 150,
           dataIndex: 'createTime',
           sorter: true
         },
-        {
-          title: '修改时间',
-          align: "center",
-          width: 150,
-          dataIndex: 'createTime',
-          sorter: true
-        },
-        {
-          title: '创建人',
-          align: "center",
-          width: 150,
-          dataIndex: 'createTime',
-          sorter: true
-        }
         ,{
           title: '操作',
           dataIndex: 'action',
@@ -322,6 +252,23 @@ export default {
     }
   },
   methods: {
+    closeModal() {
+      this.visible = false
+    },
+    send: function (record) {
+      this.visible = true
+    },
+    sendMess: function() {
+      let that = this
+      console.log(that.form)
+      sendMess(that.form).then((res) => {
+        if (res.success) {
+          that.$message.success(res.message);
+        } else {
+          that.$message.warning(res.message);
+        }
+      });
+    },
     getAvatarView: function (avatar) {
       return this.url.imgerver + "/" + avatar;
     },

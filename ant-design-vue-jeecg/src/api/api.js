@@ -5,6 +5,8 @@ import { getAction,deleteAction,putAction,postAction} from '@/api/manage'
 ////图片预览请求地址
 // const imgView = "http://localhost:8080/tice/sys/common/view/";
 
+const sendMess = (params)=>postAction("/sys/udp/send",params)
+
 //角色管理
 const addRole = (params)=>postAction("/sys/role/add",params);
 const editRole = (params)=>putAction("/sys/role/edit",params);
@@ -98,6 +100,7 @@ const loadCategoryData = (params)=>getAction("/sys/category/loadAllData",params)
 export {
   // imgView,
   // doMian,
+  sendMess,
   addRole,
   editRole,
   checkRoleCode,
