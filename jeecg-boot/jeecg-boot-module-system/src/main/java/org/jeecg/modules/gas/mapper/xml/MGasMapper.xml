@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.gas.mapper.MGasMapper">
+    <update id="saveOrUpdateBatch" parameterType="org.jeecg.modules.gas.model.MGas">
+        update
+            `m_gas`
+        set
+            `value_first` = #{valueFirst},
+            `value_second` = #{valueSecond},
+            `status` = #{status},
+            `update_time` = now()
+        where
+            gas_index=#{gasIndex}
+    </update>
+
+</mapper>
