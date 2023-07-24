@@ -15,5 +15,12 @@
       <jdbc-url>jdbc:mysql://47.96.139.161:3306/jeecg-boot?characterEncoding=UTF-8&amp;useUnicode=true&amp;useSSL=false</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="kfxm@rm-bp1o4c15q4os2myryno.mysql.rds.aliyuncs.com" uuid="0e122764-3d7e-4eb0-9eb0-0c713ee1f1ff">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://rm-bp1o4c15q4os2myryno.mysql.rds.aliyuncs.com:3306/kfxm</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

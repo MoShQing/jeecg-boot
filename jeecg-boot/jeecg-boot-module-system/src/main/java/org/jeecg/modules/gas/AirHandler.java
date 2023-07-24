@@ -19,13 +19,16 @@ private MGasService mGasService;
         ArrayList<byte[]> dataArr = getData(payload);
         ArrayList<MGas> mGasArrayList = new ArrayList<>();
         if (dataArr.size()>0) {
-            for(byte[] b : dataArr) {
+            for(int i=0 ; i< dataArr.size(); i++) {
+                byte[] b = dataArr.get(i);
                 MGas mGas = new MGas();
+                mGas.setGasIndex(i);
                 mGas.setValueFirst(b[0]);
                 mGas.setValueSecond(b[1]);
                 mGas.setGasType(b[2]);
                 mGas.setStatus(b[3]);
                 mGasArrayList.add(mGas);
+                log.info("index:{},data:{}",i, mGas.toString());
             }
 
             mGasService.saveOrUpdateBatch(mGasArrayList);

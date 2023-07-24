@@ -2,7 +2,7 @@
   <a-card :bordered="false">
 
     <!-- 查询区域 -->
-    <div class="table-page-search-wrapper">
+<!--    <div class="table-page-search-wrapper">
       <a-form layout="inline" @keyup.enter.native="searchQuery">
         <a-row :gutter="24">
 
@@ -12,7 +12,7 @@
             </a-form-item>
           </a-col>
 
-          <!--<a-col :md="6" :sm="8">
+          &lt;!&ndash;<a-col :md="6" :sm="8">
             <a-form-item label="性别">
               <a-select v-model="queryParam.sex" placeholder="请选择性别查询">
                 <a-select-option value="">请选择性别查询</a-select-option>
@@ -46,51 +46,28 @@
 
               </a-form-item>
             </a-col>
-          </template>-->
+          </template>&ndash;&gt;
 
           <a-col :md="6" :sm="8">
             <span style="float: left;overflow: hidden;" class="table-page-search-submitButtons">
               <a-button type="primary" @click="searchQuery" icon="search">查询</a-button>
-<!--              <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
+&lt;!&ndash;              <a-button type="primary" @click="searchReset" icon="reload" style="margin-left: 8px">重置</a-button>
               <a @click="handleToggleSearch" style="margin-left: 8px">
                 {{ toggleSearchStatus ? '收起' : '展开' }}
                 <a-icon :type="toggleSearchStatus ? 'up' : 'down'"/>
-              </a>-->
+              </a>&ndash;&gt;
             </span>
           </a-col>
 
         </a-row>
       </a-form>
-    </div>
+    </div>-->
 
     <!-- 操作按钮区域 -->
-    <!--<div class="table-operator" style="border-top: 5px">
-      <a-button @click="handleAdd" type="primary" icon="plus" v-has="'user:add'">新增工艺</a-button>
-            <a-button type="primary" icon="download" @click="handleExportXls('用户信息')">导出</a-button>
-            <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
-              <a-button type="primary" icon="import">导入</a-button>
-            </a-upload>
-      <a-dropdown v-if="selectedRowKeys.length > 0">
-        <a-menu slot="overlay" @click="handleMenuClick">
-          <a-menu-item key="1">
-            <a-icon type="delete" @click="batchDel"/>
-            删除
-          </a-menu-item>
-          <a-menu-item key="2">
-            <a-icon type="lock" @click="batchFrozen('2')"/>
-            冻结
-          </a-menu-item>
-          <a-menu-item key="3">
-            <a-icon type="unlock" @click="batchFrozen('1')"/>
-            解冻
-          </a-menu-item>
-        </a-menu>
-        <a-button style="margin-left: 8px">
-          批量操作
-          <a-icon type="down"/>
-        </a-button>
-      </a-dropdown>
-    </div>-->
+    <div class="table-operator" style="border-top: 5px">
+      <a-button @click="handleAdd" type="primary" v-has="'user:add'">设置</a-button>
+      <a-button type="primary" @click="handleExportXls('用户信息')">编辑</a-button>
+    </div>
 
     <!-- table区域-begin -->
     <!--    <div>
@@ -185,6 +162,10 @@ export default {
   },
   data() {
     return {
+      ipagination: {
+        current: 1,
+        pageSize: 20,
+      },
       visible: false,
       labelCol: {
         xs: { span: 24 },
@@ -200,10 +181,10 @@ export default {
         mess:'',
       },
 
-      description: '这是用户管理页面',
+      description: '这是气体报警页面',
       queryParam: {},
       columns: [
-        {
+        /*{
           title: '序号',
           dataIndex: '',
           key:'rowIndex',
@@ -212,33 +193,82 @@ export default {
           customRender:function (t,r,index) {
             return parseInt(index)+1;
           }
-        },
+        },*/
         {
-          title: '设备名称',
+          title: '气体采集设备ID',
           align: "center",
-          dataIndex: 'username',
-          width: 120
+          dataIndex: 'sn'
         },
         {
-          title: '创建时间',
+          title: '通道',
           align: "center",
           width: 150,
-          dataIndex: 'createTime',
-          sorter: true
+          dataIndex: 'gasIndex'
         },
-        ,{
-          title: '操作',
-          dataIndex: 'action',
-          scopedSlots: {customRender: 'action'},
+        {
+          title: '时间',
           align: "center",
-          width: 170
+          width: 150,
+          dataIndex: 'createTime'
+        },
+        {
+          title: '浓度',
+          align: "center",
+          width: 150,
+          dataIndex: 'valueSecond'
+        },
+        {
+          title: '单位',
+          align: "center",
+          width: 150,
+          dataIndex: 'valueFirst',
+          customRender(t, r, index) {
+            if (r.valueFirst == "0") {
+              return "%LEL"
+            }
+            return ""
+          }
+        },
+        {
+          title: '气体',
+          align: "center",
+          width: 150,
+          dataIndex: 'gasType',
+          customRender(t, r, index) {
+            if (r.gasType == "8") {
+              return "H2"
+            }else if (r.gasType == "23") {
+              return "CH40"
+            }
+            return ""
+          }
+        },
+        {
+          title: '状态',
+          align: "center",
+          width: 150,
+          dataIndex: 'status',
+          customRender(t, r, index) {
+            if (r.status == "-123") {
+              return "未接入"
+            }else if (r.status == "-128") {
+              return "正常"
+            }
+            return ""
+          }
+        },
+        {
+          title: '位置',
+          align: "center",
+          width: 150,
+          dataIndex: 'location'
         }
 
       ],
       url: {
         imgerver: window._CONFIG['domianURL'] + "/sys/common/view",
         syncUser: "/process/extActProcess/doSyncUser",
-        list: "/sys/user/list",
+        list: "/alarm/gas/list",
         delete: "/sys/user/delete",
         deleteBatch: "/sys/user/deleteBatch",
         exportXlsUrl: "/sys/user/exportXls",
@@ -251,7 +281,17 @@ export default {
       return `${window._CONFIG['domianURL']}/${this.url.importExcelUrl}`;
     }
   },
+  created() {
+    this.start();
+    },
   methods: {
+    start() {
+      let that = this
+      // 将定时器名字赋值到变量中
+      that.timer = setInterval(() => {
+        this.searchQuery();
+      }, 10000);
+    },
     closeModal() {
       this.visible = false
     },

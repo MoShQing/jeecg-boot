@@ -1,10 +1,9 @@
 package org.jeecg.modules.gas.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.Date;
+
+import lombok.Data;
+
 
 @Data
 public class MGas {
@@ -17,7 +16,6 @@ public class MGas {
   private int gasType;
   private int status;
   private Date createTime;
-  private String updateBy;
   private Date updateTime;
   private long delFlag;
 }
